@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, HelpCircle, MessageCircle } from "lucide-react";
+import { X, HelpCircle } from "lucide-react";
 
 type CatState = "idle" | "wave" | "thinking" | "celebrating" | "pointing";
 
@@ -213,37 +213,36 @@ export const CatCompanion: React.FC<CatCompanionProps> = ({
   className = "",
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [catState, setCatState] = useState<CatState>("idle");
   const [activeMessages, setActiveMessages] = useState<CompanionMessage[]>(messages);
+  const [catStateOverride, setCatStateOverride] = useState<CatState | null>(null);
   const [showHelp, setShowHelp] = useState(false);
 
-  // Update active messages when props change
-  useEffect(() => {
+  // Keep local message list in sync with props — adjusting state during
+  // render is the React-sanctioned pattern for derived state from props.
+  const [prevMessages, setPrevMessages] = useState<CompanionMessage[]>(messages);
+  if (prevMessages !== messages) {
+    setPrevMessages(messages);
     setActiveMessages(messages);
-  }, [messages]);
+    setCatStateOverride(null);
+  }
 
-  // Set cat state based on message types
-  useEffect(() => {
-    if (activeMessages.length === 0) {
-      setCatState("idle");
-      return;
-    }
-
-    const latestMessage = activeMessages[activeMessages.length - 1];
-    switch (latestMessage.type) {
-      case "celebration":
-        setCatState("celebrating");
-        break;
-      case "guide":
-        setCatState("pointing");
-        break;
-      case "help":
-        setCatState("thinking");
-        break;
-      default:
-        setCatState("wave");
-    }
-  }, [activeMessages]);
+  // Cat state is derived from the latest message — no effect needed.
+  const catState: CatState =
+    catStateOverride ??
+    (activeMessages.length === 0
+      ? "idle"
+      : (() => {
+          switch (activeMessages[activeMessages.length - 1].type) {
+            case "celebration":
+              return "celebrating";
+            case "guide":
+              return "pointing";
+            case "help":
+              return "thinking";
+            default:
+              return "wave";
+          }
+        })());
 
   const handleDismissMessage = (messageId: string) => {
     setActiveMessages(prev => prev.filter(m => m.id !== messageId));
@@ -256,7 +255,7 @@ export const CatCompanion: React.FC<CatCompanionProps> = ({
     } else {
       // Show help menu
       setShowHelp(true);
-      setCatState("wave");
+      setCatStateOverride("wave");
     }
   };
 
@@ -271,6 +270,7 @@ export const CatCompanion: React.FC<CatCompanionProps> = ({
     };
     
     setActiveMessages([helpMessage]);
+    setCatStateOverride(null);
     setShowHelp(false);
     setIsExpanded(true);
   };

@@ -31,20 +31,20 @@ export default function NotesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="serif-heading text-3xl text-ink">Notes</h1>
-          <p className="text-muted mt-2">Your captured insights and reflections</p>
+          <h1 className="serif-heading text-3xl mb-2 text-ink">Notes</h1>
+          <p className="text-muted">Your captured insights and reflections</p>
         </div>
-        <button className="btn-base btn-primary">
+        <button className="btn-primary-new">
           <Plus size={16} />
           New Note
         </button>
       </div>
 
       {/* Filters */}
-      <div className="journal-card p-4">
+      <div className="hard-card p-4">
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
-            <Tag size={16} className="text-brass" />
+            <Tag size={16} className="text-lagoon" />
             <select className="input-base">
               <option>All tags</option>
               <option>productivity</option>
@@ -53,7 +53,7 @@ export default function NotesPage() {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar size={16} className="text-brass" />
+            <Calendar size={16} className="text-lagoon" />
             <select className="input-base">
               <option>All dates</option>
               <option>This week</option>
@@ -61,8 +61,8 @@ export default function NotesPage() {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <Download size={16} className="text-brass" />
-            <button className="btn-base btn-secondary">
+            <Download size={16} className="text-lagoon" />
+            <button className="btn-secondary-new">
               Export PDF
             </button>
           </div>
@@ -74,7 +74,7 @@ export default function NotesPage() {
         {notes.map((note, index) => (
           <div 
             key={note.id}
-            className={`journal-card p-6 cursor-pointer settle-in stagger-${index + 1}`}
+            className={`hard-card p-6 cursor-pointer settle stagger-${index + 1}`}
             onClick={() => {
               const newSelected = selectedNotes.includes(note.id)
                 ? selectedNotes.filter(id => id !== note.id)
@@ -92,7 +92,7 @@ export default function NotesPage() {
               />
             </div>
             
-            <p className="text-muted text-sm leading-relaxed mb-4">
+            <p className="text-sm leading-relaxed mb-4 text-muted">
               {note.content}
             </p>
             
@@ -100,7 +100,7 @@ export default function NotesPage() {
               {note.tags.map(tag => (
                 <span 
                   key={tag}
-                  className="px-2 py-1 bg-brass/10 text-brass text-xs rounded-md"
+                  className="accent-chip px-2 py-1 text-xs rounded-md"
                 >
                   {tag}
                 </span>
@@ -124,7 +124,7 @@ export default function NotesPage() {
       {/* Empty State */}
       {notes.length === 0 && (
         <div className="journal-card p-12 text-center">
-          <FileText size={48} className="text-brass mx-auto mb-4" />
+          <FileText size={48} className="text-lagoon mx-auto mb-4" />
           <h3 className="serif-heading text-xl text-ink mb-2">No notes yet</h3>
           <p className="text-muted mb-6">
             Start capturing insights from your curated content

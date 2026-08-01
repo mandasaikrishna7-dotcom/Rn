@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ArrowLeft, ArrowRight, Compass } from "lucide-react";
+import { useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ChevronDown, Compass } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { OutlineButton, PrimaryButton } from "@/components/ui/Buttons";
 import { HardCard } from "@/components/ui/HardCard";
 import { MediaPrefsPicker } from "@/components/ui/MediaPrefsPicker";
@@ -46,81 +47,85 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center px-4 py-12">
-      <div className="mb-8 flex flex-col items-start gap-4">
-        <span className="flex h-12 w-12 items-center justify-center border-2 border-ink bg-cobalt shadow-[4px_4px_0_#0a0a0f]">
-          <Compass size={24} className="text-white" strokeWidth={2.2} />
-        </span>
-        <div>
-          <h1 className="display text-4xl text-ink">Draw your compass</h1>
-          <p className="mono-label mt-3 max-w-md leading-relaxed text-muted">
-            Four small questions. NextSelf uses this as your seed profile — you can edit any of it before
-            beginning, and anytime after.
-          </p>
-        </div>
-        <StepDots steps={STEP_COUNT} current={step} />
-      </div>
+    <main className="min-h-screen">
+      <OnboardingHero />
 
-      <HardCard grain={false} className="p-7">
-        <div key={step} className="settle">
-          <p className="mono-label text-cobalt-dark">Step {step + 1} / {STEP_COUNT}</p>
-          <h2 className="mt-2 font-display text-2xl text-ink">{STEP_HEADINGS[step].title}</h2>
-          <p className="mono-label mt-2 !text-[11px] !normal-case text-muted">{STEP_HEADINGS[step].hint}</p>
-
-          <div className="mt-6">
-            {step === 0 && (
-              <textarea
-                value={whoNow}
-                onChange={(e) => setWhoNow(e.target.value)}
-                rows={4}
-                placeholder="e.g. A product engineer who reads mostly for work, curious about AI systems, often skips things that feel like homework…"
-                className="hard-input resize-none"
-                autoFocus
-              />
-            )}
-            {step === 1 && (
-              <StringListEditor
-                values={aspirations}
-                onChange={setAspirations}
-                placeholder="e.g. Lead technical decisions with confidence"
-              />
-            )}
-            {step === 2 && (
-              <StringListEditor values={habits} onChange={setHabits} placeholder="e.g. Morning reading, weekly long walk" />
-            )}
-            {step === 3 && <MediaPrefsPicker prefs={prefs} onChange={setPrefs} />}
+      <section className="container-narrow relative z-10 -mt-24 pb-16">
+        <div className="mb-8 flex flex-col items-start gap-4">
+          <span className="flex h-12 w-12 items-center justify-center border-2 border-ink bg-lagoon shadow-[4px_4px_0_#0a0a0f]">
+            <Compass size={24} className="text-white" strokeWidth={2.2} />
+          </span>
+          <div>
+            <h1 className="serif-heading text-4xl text-ink">Set your compass</h1>
+            <p className="mono-label mt-3 max-w-md leading-relaxed text-muted">
+              Four small questions. NextSelf uses this as your seed profile — you can edit any of it before
+              beginning, and anytime after.
+            </p>
           </div>
+          <StepDots steps={STEP_COUNT} current={step} />
         </div>
 
-        {error ? <p className="mt-4 text-sm font-semibold text-magenta">{error}</p> : null}
+        <HardCard grain={false} className="p-7">
+          <div key={step} className="settle">
+            <p className="mono-label text-lagoon-deep">Step {step + 1} / {STEP_COUNT}</p>
+            <h2 className="mt-2 font-display text-2xl text-ink">{STEP_HEADINGS[step].title}</h2>
+            <p className="mono-label mt-2 !text-[11px] !normal-case text-muted">{STEP_HEADINGS[step].hint}</p>
 
-        <div className="mt-8 flex items-center justify-between gap-3">
-          <OutlineButton onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}>
-            <ArrowLeft size={15} /> Back
-          </OutlineButton>
-          {step < STEP_COUNT - 1 ? (
-            <PrimaryButton onClick={() => canProceed && setStep((s) => s + 1)} disabled={!canProceed}>
-              Continue <ArrowRight size={15} />
-            </PrimaryButton>
-          ) : (
-            <PrimaryButton onClick={submit} disabled={onboard.isPending}>
-              {onboard.isPending ? "Setting…" : "Review your compass"} <ArrowRight size={15} />
-            </PrimaryButton>
-          )}
-        </div>
-      </HardCard>
+            <div className="mt-6">
+              {step === 0 && (
+                <textarea
+                  value={whoNow}
+                  onChange={(e) => setWhoNow(e.target.value)}
+                  rows={4}
+                  placeholder="e.g. A product engineer who reads mostly for work, curious about AI systems, often skips things that feel like homework…"
+                  className="hard-input resize-none"
+                  autoFocus
+                />
+              )}
+              {step === 1 && (
+                <StringListEditor
+                  values={aspirations}
+                  onChange={setAspirations}
+                  placeholder="e.g. Lead technical decisions with confidence"
+                />
+              )}
+              {step === 2 && (
+                <StringListEditor values={habits} onChange={setHabits} placeholder="e.g. Morning reading, weekly long walk" />
+              )}
+              {step === 3 && <MediaPrefsPicker prefs={prefs} onChange={setPrefs} />}
+            </div>
+          </div>
 
-      {step === STEP_COUNT - 1 ? (
-        <SummaryCard
-          whoNow={whoNow}
-          aspirations={aspirations}
-          habits={habits}
-          onEditStep={(target) => setStep(target)}
-          onConfirm={submit}
-          submitting={onboard.isPending}
-          error={error}
-        />
-      ) : null}
+          {error ? <p className="mt-4 text-sm font-semibold text-magenta">{error}</p> : null}
+
+          <div className="mt-8 flex items-center justify-between gap-3">
+            <OutlineButton onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}>
+              <ArrowLeft size={15} /> Back
+            </OutlineButton>
+            {step < STEP_COUNT - 1 ? (
+              <PrimaryButton onClick={() => canProceed && setStep((s) => s + 1)} disabled={!canProceed}>
+                Continue <ArrowRight size={15} />
+              </PrimaryButton>
+            ) : (
+              <PrimaryButton onClick={submit} disabled={onboard.isPending}>
+                {onboard.isPending ? "Setting…" : "Review your compass"} <ArrowRight size={15} />
+              </PrimaryButton>
+            )}
+          </div>
+        </HardCard>
+
+        {step === STEP_COUNT - 1 ? (
+          <SummaryCard
+            whoNow={whoNow}
+            aspirations={aspirations}
+            habits={habits}
+            onEditStep={(target) => setStep(target)}
+            onConfirm={submit}
+            submitting={onboard.isPending}
+            error={error}
+          />
+        ) : null}
+      </section>
     </main>
   );
 }
@@ -149,7 +154,7 @@ function SummaryCard({
   return (
     <div className="settle mt-8">
       <HardCard className="p-7">
-        <p className="mono-label text-cobalt-dark">First page of your journal</p>
+        <p className="mono-label text-lagoon-deep">First page of your journal</p>
         <p className="mt-2 font-display text-xl text-ink">&ldquo;The self I am, the self I&rsquo;m becoming&rdquo;</p>
 
         <dl className="mt-6 space-y-6 text-sm">
@@ -210,5 +215,82 @@ function EditJump({ onClick }: { onClick: () => void }) {
     >
       Edit
     </button>
+  );
+}
+
+/**
+ * Hero for the first step of the app flow: the Spline reactive orb
+ * (embedded oversized so its bottom-right watermark sits off-screen),
+ * a "nextlife" brand badge over the corner, and a scroll-linked
+ * parallax — the orb drifts slower than the headline as you scroll.
+ */
+const SPLINE_URL = "https://my.spline.design/reactiveorb-Rn4hWvHJ2IloIXyKvjkczzoF/";
+
+function OnboardingHero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "22%"]);
+  const orbRotate = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 10]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "55%"]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, reduce ? 1 : 0]);
+
+  return (
+    <section ref={ref} className="relative overflow-hidden" style={{ minHeight: "88vh" }}>
+      {/* Soft lagoon wash behind the orb */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(55% 45% at 50% 45%, rgba(15,138,134,0.16), transparent 72%)",
+        }}
+      />
+
+      {/* Spline orb — parallax layer (slower than text) */}
+      <motion.div
+        aria-hidden
+        style={{ y: orbY, rotate: orbRotate }}
+        className="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[min(92vw,560px)] -translate-x-1/2 -translate-y-1/2"
+      >
+        <div className="spline-frame h-full w-full rounded-[24px]">
+          <iframe
+            className="spline-embed"
+            src={SPLINE_URL}
+            title="NextSelf reactive orb"
+            allow="autoplay; fullscreen"
+          />
+          <div className="nextlife-badge">
+            <span className="flex h-6 w-6 items-center justify-center rounded-[4px] bg-lagoon text-[11px] font-black text-white">
+              N
+            </span>
+            <span className="mono-label !text-[10px] text-ink">nextlife</span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Headline — parallax layer (drifts away faster) */}
+      <motion.div
+        style={{ y: textY, opacity: textOpacity }}
+        className="relative z-10 flex min-h-[88vh] flex-col items-center justify-center px-4 text-center"
+      >
+        <span className="mono-label mb-4 text-lagoon-deep">Your growth compass · step one of four</span>
+        <h1 className="serif-heading max-w-2xl text-5xl leading-tight text-ink md:text-6xl">
+          Draw your compass
+        </h1>
+        <p className="mono-label mt-5 max-w-md leading-relaxed text-muted">
+          Four small questions. NextSelf uses this as your seed profile — you can edit any of it before
+          beginning, and anytime after.
+        </p>
+        <div className="scroll-cue mt-12" style={{ color: "var(--color-lagoon)" }}>
+          <ChevronDown size={30} strokeWidth={2.4} />
+        </div>
+      </motion.div>
+    </section>
   );
 }

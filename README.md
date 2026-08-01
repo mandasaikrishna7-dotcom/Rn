@@ -1,8 +1,8 @@
 # NextSelf — Your Growth Compass
 
-A personal-growth curation platform that understands who you are becoming and picks the media, knowledge, and experiences that serve that journey. Built as a **blue neo-brutalist** field journal — hard edges, halftone mesh accents, and honest stub labels everywhere.
+A personal-growth curation platform that understands who you are becoming and picks the media, knowledge, and experiences that serve that journey. Built with a **warm skeuomorphic design system** featuring a journal/compass aesthetic with an animated cat companion guide.
 
-![NextSelf](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js&logoColor=white) ![Backend](https://img.shields.io/badge/FastAPI-0.115-blue?logo=fastapi) ![Design](https://img.shields.io/badge/Design-Neo--Brutalist--SpiderVerse-FF2D78)
+![NextSelf](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js&logoColor=white) ![Backend](https://img.shields.io/badge/FastAPI-0.115-blue?logo=fastapi) ![Design](https://img.shields.io/badge/Design-Skeuomorphic--Journal-B08D57)
 
 ---
 
@@ -37,27 +37,45 @@ The platform is honest about what is real and what is stubbed — every placehol
 ### Core Curation
 - **Real pipeline execution** — fetch articles/papers/videos from RSS, web, and social sources; score by relevance; cluster into threads; generate an HTML digest
 - **Ranked feed** — items ordered by composite score (engagement, novelty, alignment with your focus)
-- **"Why this pick" rationale** — every feed item includes a collapsed mono footnote explaining the ranking logic
+- **"Why this pick" rationale** — every feed item includes an explanation of the ranking logic
 - **Media-type filtering** — preferences stored in user state × item metadata (article, paper, video)
 
+### Cat Companion System
+- **Animated guide** — A friendly black cat companion that helps onboard users and provides contextual tips
+- **Comic-style speech bubbles** — Hand-drawn borders with halftone accents for companion messages
+- **Milestone celebrations** — Pop-in animations for achievements and key moments
+- **Contextual help** — Dismissible tips that appear at the right moments
+
+### Notes & Knowledge Management
+- **Manual notes** — Create your own reflections on curated content
+- **Agent-summary notes** — AI-powered summaries of items (when backend LLM available)
+- **Highlight extracts** — Capture key passages for later review
+- **PDF export** — Professional formatted PDFs with cover pages, TOC, and citations
+- **Flashcard generation** — Auto-generated Q&A pairs from notes for spaced repetition
+- **Journey-linked exports** — PDFs include your goals at the time notes were taken
+
 ### User Journey
-- **Onboarding guard** — first-time users draw their compass (who you are now, who you're becoming, habits, media preferences)
-- **Journey & Identity** — edit your seed profile; every confirmation creates a revision entry in the timeline
-- **Progress & Reflection** — engagement log (saved / done / dismissed), reflection prompts, quiet journal card
-- **Mentors & Experiences** — placeholder cards for future people/communities/events data source (dashed border = not real yet)
+- **Onboarding with cat guide** — Draw your compass (who you are now, who you're becoming, habits, media preferences)
+- **Journey & Identity** — Edit your seed profile; every confirmation creates a revision entry in the timeline
+- **Progress & Reflection** — Engagement log (saved / done / dismissed), reflection prompts, quiet journal aesthetics
+- **Mentors & Experiences** — Directory for people/communities/events (clearly labeled if stubbed)
 
 ### Interface
-- **Blue neo-brutalist design** — void sidebar, comic focus banner, hard ink borders, flat shadows, halftone mesh accents
-- **7 pages** — onboarding, home feed, item detail, journey, mentors, progress, settings
+- **Two-layer design system**:
+  - **Layer 1 (95% of UI)**: Warm skeuomorphic journal aesthetic - paper grain backgrounds, leather nav panels, brass accents, serif headings
+  - **Layer 2 (Companion only)**: Comic/halftone pop language - bold outlines, speech bubbles, color pops, kinetic animations
+- **8 pages** — onboarding, home feed, item detail, journey, notes, mentors, progress, settings
 - **Responsive** — sidebar collapses to bottom bar on mobile (<768px)
-- **Reduced-texture mode** — strips grain, mesh, and glitch for a calmer view
-- **Honest copy** — "PLACEHOLDER — NO DATA SOURCE YET", "Curation, not attention", "No streaks, no scores"
+- **Reduced-texture mode** — strips grain and halftone patterns for a calmer view
+- **Physical motion** — Framer Motion animations that feel tactile, never bouncy
 
 ### Backend
 - **FastAPI layer** — wraps the CLI pipeline as a proper HTTP API
 - **Single-user state store** — JSON file at `outputs/user_state/state.json`
 - **Background pipeline runs** — trigger `run_pipeline.py` as a subprocess, poll status
 - **Static file serving** — `outputs/` mounted at `/outputs`
+- **Notes storage** — Full CRUD operations for notes, flashcards, and highlights
+- **PDF generation** — WeasyPrint for backend HTML→PDF rendering
 
 ---
 

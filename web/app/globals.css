@@ -12,14 +12,28 @@
   --color-ink: #2B2118;
   --color-card: #FFFFFF;
   --color-muted: #8B7355;
-  
+
+  /* Blue-green accent palette (skeuomorphic aqua/jade) */
+  --color-lagoon: #0F8A86;
+  --color-lagoon-deep: #0A6B68;
+  --color-pine: #2E7D5B;
+  --color-sky: #6FB8C9;
+  --color-foam: #E9F6F2;
+  --color-mint: #DCF0E7;
+
   /* Comic accent (for companion only) */
   --color-comic-cyan: #00D4F0;
   --color-comic-magenta: #FF1B6B;
-  
+
+  /* Legacy aliases → blue-green identity (old cobalt/halftone usage) */
+  --color-cobalt: #0F8A86;
+  --color-cobalt-dark: #0A6B68;
+  --color-halftone: #7EC8C6;
+
   /* Typography */
   --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-sans), "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
 /* Base */
@@ -35,12 +49,12 @@ body {
 
 /* Focus */
 :focus-visible {
-  outline: 3px solid var(--color-brass);
+  outline: 3px solid var(--color-lagoon);
   outline-offset: 2px;
 }
 
 ::selection {
-  background: var(--color-brass);
+  background: var(--color-lagoon);
   color: var(--color-card);
 }
 
@@ -99,13 +113,13 @@ body {
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-primary {
-  background: linear-gradient(145deg, #C49A68, var(--color-brass));
+  background: linear-gradient(145deg, #18A39E, var(--color-lagoon));
   color: var(--color-card);
   box-shadow: 0 2px 4px rgba(43, 33, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(145deg, #D4A872, #C49A68);
+  background: linear-gradient(145deg, #1FB5B0, #18A39E);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(43, 33, 24, 0.2);
 }
@@ -192,7 +206,7 @@ body {
   padding: 0;
 }
 
-.switch-on { background: var(--color-brass); }
+.switch-on { background: var(--color-lagoon); }
 .switch-off { background: var(--color-ink); }
 
 .switch-knob {
@@ -220,8 +234,8 @@ body {
 }
 
 .hard-input:focus {
-  border-color: var(--color-brass);
-  box-shadow: 2px 2px 0 rgba(43, 33, 24, 0.1);
+  border-color: var(--color-lagoon);
+  box-shadow: 2px 2px 0 rgba(15, 138, 134, 0.12);
 }
 
 .hard-input::placeholder {
@@ -266,6 +280,7 @@ body {
 /* Reduced texture mode */
 html[data-texture="reduced"] .grain::before { display: none; }
 html[data-texture="reduced"] .hard-card--mesh,
+html[data-texture="reduced"] .hard-card--mesh-teal,
 html[data-texture="reduced"] .comic-banner { background-image: none; }
 
 /* Journal Card NEW */
@@ -306,14 +321,15 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 }
 
 .btn-primary-new {
-  background: linear-gradient(145deg, #C49A68, #B08D57);
+  background: linear-gradient(145deg, #18A39E, var(--color-lagoon));
   color: white;
-  box-shadow: 0 2px 4px rgba(43, 33, 24, 0.15);
+  box-shadow: 0 2px 4px rgba(15, 138, 134, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .btn-primary-new:hover:not(:disabled) {
-  background: linear-gradient(145deg, #D4A872, #C49A68);
+  background: linear-gradient(145deg, #1FB5B0, #18A39E);
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 138, 134, 0.3);
 }
 
 .btn-secondary-new {
@@ -341,8 +357,8 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 
 .input-base:focus {
   outline: none;
-  border-color: var(--color-brass);
-  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.1);
+  border-color: var(--color-lagoon);
+  box-shadow: 0 0 0 3px rgba(15, 138, 134, 0.12);
 }
 
 /* Utility classes */
@@ -377,8 +393,8 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 
 .nav-item.active {
   color: white;
-  background: rgba(176, 141, 87, 0.2);
-  border-left: 3px solid var(--color-brass);
+  background: rgba(15, 138, 134, 0.25);
+  border-left: 3px solid var(--color-lagoon);
 }
 
 /* Comic bubble for companion */
@@ -437,3 +453,83 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
 .stagger-4 { animation-delay: 0.2s; }
+
+/* ================================================================== */
+/* BLUE-GREEN SKELUO ACCENTS + SPLINE HERO                            */
+/* ================================================================== */
+
+/* Rationale / callout panel with lagoon edge */
+.accent-panel {
+  background: rgba(15, 138, 134, 0.07);
+  border-left: 4px solid var(--color-lagoon);
+}
+
+.accent-chip {
+  background: rgba(15, 138, 134, 0.12);
+  color: var(--color-lagoon-deep);
+}
+
+.accent-chip-warm {
+  background: rgba(176, 141, 87, 0.15);
+  color: var(--color-brass);
+}
+
+.hard-card--mesh-teal {
+  background-image: radial-gradient(rgba(15, 138, 134, 0.12) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+/* Spline embed frame: iframe is oversized so the Spline watermark
+   (bottom-right corner of the iframe) lands off-screen. */
+.spline-frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.spline-embed {
+  position: absolute;
+  top: -14%;
+  left: -14%;
+  width: 128%;
+  height: 128%;
+  border: 0;
+  display: block;
+}
+
+/* Brand badge that sits over the corner where the Spline watermark
+   would otherwise peek through — doubles as the app logo lockup. */
+.nextlife-badge {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 rgba(43, 33, 24, 0.18);
+  user-select: none;
+}
+
+.nextlife-badge:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 rgba(43, 33, 24, 0.18);
+}
+
+/* Scroll cue for the parallax hero */
+@keyframes cue-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+
+.scroll-cue {
+  animation: cue-drop 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; opacity: 1; }
+}
