@@ -152,7 +152,7 @@ flowchart TB
         OUT6["user_state/state.json"]
     end
 
-    subgraph BACKEND["🐍 FastAPI Backend — api/"]
+    subgraph BACKEND["🐍 FastAPI Backend — backend/"]
         direction LR
         API1["GET /bootstrap"]
         API2["GET /feed"]
@@ -171,7 +171,7 @@ flowchart TB
         API15["GET /outputs/*"]
     end
 
-    subgraph FRONTEND["⚛️ Next.js 16 Frontend — frontend/"]
+    subgraph FRONTEND["⚛️ Next.js 16 Frontend — web/"]
         direction TB
         F_COMP["Components"]
         F_PAGES["Pages"]
@@ -310,61 +310,61 @@ All motion respects `prefers-reduced-motion`.
 
 ```
 nextself/
-├── api/                          # FastAPI backend
-│   ├── main.py                   # FastAPI app, routes, CORS
-│   ├── feed.py                   # Feed builder with clean_summary()
-│   └── state.py                  # Single-user JSON state store
-├── frontend/                     # Next.js 16 app
+├── backend/                        # FastAPI backend
+│   ├── main.py                     # FastAPI app, routes, CORS
+│   ├── feed.py                     # Feed builder with clean_summary()
+│   └── state.py                    # Single-user JSON state store
+├── web/                            # Next.js 16 app
 │   ├── app/
-│   │   ├── layout.tsx            # Root layout, font imports
-│   │   ├── globals.css           # Design tokens, all surface classes
+│   │   ├── layout.tsx              # Root layout, font imports
+│   │   ├── globals.css             # Design tokens, all surface classes
 │   │   ├── onboarding/
-│   │   │   └── page.tsx          # "Draw your compass" (4 steps)
+│   │   │   └── page.tsx            # "Draw your compass" (4 steps)
 │   │   ├── (app)/
-│   │   │   ├── layout.tsx        # App shell (sidebar + focus banner)
-│   │   │   ├── page.tsx          # Home feed
+│   │   │   ├── layout.tsx          # App shell (sidebar + focus banner)
+│   │   │   ├── page.tsx            # Home feed
 │   │   │   ├── journey/
-│   │   │   │   └── page.tsx      # Profile + revision timeline
+│   │   │   │   └── page.tsx        # Profile + revision timeline
 │   │   │   ├── mentors/
-│   │   │   │   └── page.tsx      # Placeholder cards + BackendGap
+│   │   │   │   └── page.tsx        # Placeholder cards + BackendGap
 │   │   │   ├── progress/
-│   │   │   │   └── page.tsx      # Engagement log + quiet quote
+│   │   │   │   └── page.tsx        # Engagement log + quiet quote
 │   │   │   └── settings/
-│   │   │       └── page.tsx      # Goals, media prefs, texture toggle
+│   │   │       └── page.tsx        # Goals, media prefs, texture toggle
 │   │   └── item/
 │   │       └── [id]/
-│   │           └── page.tsx      # Item detail + related thread
+│   │           └── page.tsx        # Item detail + related thread
 │   ├── components/
-│   │   ├── AppSidebar.tsx        # Void sidebar / bottom bar
-│   │   ├── FocusBanner.tsx       # Comic focus banner (sticky top)
-│   │   ├── FeedCard.tsx          # Feed item card (mono meta, actions)
-│   │   ├── OnboardingGuard.tsx   # Session gate
-│   │   ├── Providers.tsx         # React Query + Theme provider
-│   │   ├── TextureMode.tsx       # Reduced-texture toggle
-│   │   └── ui/                   # Component library
-│   │       ├── HardCard.tsx      # Neo-brutalist card (dashed/mesh/grain)
-│   │       ├── Buttons.tsx       # PrimaryButton + OutlineButton
-│   │       ├── StepDots.tsx      # Onboarding progress indicator
-│   │       ├── TypeBadge.tsx     # Media type tag (void bg, mono)
-│   │       ├── SectionHeading.tsx # Display headline + mono sub
-│   │       ├── BackendGap.tsx    # Honest backend-gap callout
-│   │       ├── Toggle.tsx        # Square hard switch
+│   │   ├── AppSidebar.tsx          # Void sidebar / bottom bar
+│   │   ├── FocusBanner.tsx         # Comic focus banner (sticky top)
+│   │   ├── FeedCard.tsx            # Feed item card (mono meta, actions)
+│   │   ├── OnboardingGuard.tsx     # Session gate
+│   │   ├── Providers.tsx           # React Query + Theme provider
+│   │   ├── TextureMode.tsx         # Reduced-texture toggle
+│   │   └── ui/                     # Component library
+│   │       ├── HardCard.tsx        # Neo-brutalist card (dashed/mesh/grain)
+│   │       ├── Buttons.tsx         # PrimaryButton + OutlineButton
+│   │       ├── StepDots.tsx        # Onboarding progress indicator
+│   │       ├── TypeBadge.tsx       # Media type tag (void bg, mono)
+│   │       ├── SectionHeading.tsx   # Display headline + mono sub
+│   │       ├── BackendGap.tsx       # Honest backend-gap callout
+│   │       ├── Toggle.tsx          # Square hard switch
 │   │       ├── StringListEditor.tsx # Ink chip list editor
 │   │       └── MediaPrefsPicker.tsx # Media preference toggles
 │   ├── hooks/
-│   │   └── useApi.ts             # React Query hooks for all endpoints
+│   │   └── useApi.ts               # React Query hooks for all endpoints
 │   ├── lib/
-│   │   ├── api.ts                # API client utilities
-│   │   ├── types.ts              # TypeScript interfaces
-│   │   └── utils.ts              # cn(), formatDate() helpers
-│   ├── next.config.ts            # Proxy rewrites to backend
+│   │   ├── api.ts                  # API client utilities
+│   │   ├── types.ts                # TypeScript interfaces
+│   │   └── utils.ts                # cn(), formatDate() helpers
+│   ├── next.config.ts              # Proxy rewrites to backend
 │   └── README.md
-├── .env                          # GEMINI_API_KEY + model config
+├── .env                            # GEMINI_API_KEY + model config
 ├── .env.example
 ├── .gitignore
 ├── pyproject.toml
 ├── requirements.txt
-└── README.md                     # This file
+└── README.md                       # This file
 ```
 
 ---
@@ -395,13 +395,13 @@ pip install -r requirements.txt
 $env:GEMINI_API_KEY = "your-key-here"
 
 # Start the backend
-uvicorn api.main:app --host 127.0.0.1 --port 8000
+uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
 ### Frontend
 
 ```powershell
-cd nextself\frontend
+cd nextself\web
 
 # Install dependencies
 npm install

@@ -13,10 +13,10 @@ Two processes, both on this machine:
 ```bash
 # 1. Backend (repo root) — FastAPI wrapper around the pipeline
 cd ..
-.venv\Scripts\python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+.venv\Scripts\python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 
 # 2. Frontend
-cd frontend
+cd web
 npm install
 npm run dev            # http://localhost:3000
 ```
@@ -31,8 +31,8 @@ single-user session gate. Confirm the summary card to reach the feed.
 ## What the backend is
 
 The repo has **no HTTP API of its own** — it was a CLI pipeline
-(`run_pipeline.py`). A minimal **FastAPI layer was added at `/api`
-(repo root, new)** which:
+(`run_pipeline.py`). A minimal **FastAPI layer was added at `/backend`
+(repo root)** which:
 
 - serves real pipeline artifacts (`outputs/intermediate/*.json`) as a feed,
 - adds a tiny single-user state store (`outputs/user_state/state.json`) for

@@ -25,11 +25,11 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from api.feed import FeedBuilder
-from api.state import StateStore, _now_iso
+from backend.feed import FeedBuilder
+from backend.state import StateStore, _now_iso
 from config.settings import BASE_DIR, OUTPUT_DIR
 
-app = FastAPI(title="Agentic AI Curator API", version="0.1.0")
+app = FastAPI(title="NextSelf API", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
