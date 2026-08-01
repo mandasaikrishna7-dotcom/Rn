@@ -21,7 +21,7 @@ export function StepDots({ steps, current }: { steps: number; current: number })
           <span
             key={i}
             className={cn(
-              "block h-3 w-3 border-2 border-ink transition-all duration-150",
+              "block h-3.5 w-3.5 border-2 border-ink transition-all duration-150",
               state === "active" &&
                 "bg-cobalt shadow-[2px_2px_0_#0a0a0f]",
               state === "passed" && "border-cobalt bg-cobalt/40",

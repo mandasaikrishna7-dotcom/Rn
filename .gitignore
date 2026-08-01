@@ -40,3 +40,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+# Local Netlify folder
+.netlify
+web/dev-server.err

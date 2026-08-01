@@ -137,8 +137,10 @@ class StateStore:
 
     def delete_note(self, note_id: str) -> dict[str, Any]:
         """Delete a note."""
-        return self.mutate(lambda state: setattr(state, "notes", 
-            [note for note in state["notes"] if note["id"] != note_id]))
+        def _apply(state: dict[str, Any]) -> None:
+            state["notes"] = [note for note in state["notes"] if note["id"] != note_id]
+
+        return self.mutate(_apply)
 
     def add_flashcard_set(self, note_id: str, flashcards: list[dict[str, str]]) -> dict[str, Any]:
         """Add flashcards generated from a note."""

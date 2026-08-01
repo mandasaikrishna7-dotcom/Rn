@@ -11,7 +11,14 @@
   --color-brass: #B08D57;
   --color-ink: #2B2118;
   --color-card: #FFFFFF;
-  --color-muted: #8B7355;
+  --color-muted: #77624A;
+
+  /* Dark hero surface + text (onboarding splash). Text pairs verified
+     against WCAG AA on --color-hero-bg (computed, not eyeballed). */
+  --color-hero-bg: #171310;
+  --color-hero-text: #F0EBDF;
+  --color-hero-muted: #B8B0A0;
+  --color-hero-accent: #5CC6C0;
 
   /* Blue-green accent palette (skeuomorphic aqua/jade) */
   --color-lagoon: #0F8A86;
@@ -30,9 +37,8 @@
   --color-cobalt-dark: #0A6B68;
   --color-halftone: #7EC8C6;
 
-  /* Typography */
-  --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-sans), "Inter", "Segoe UI", system-ui, sans-serif;
+  /* Typography: --font-serif and --font-sans are provided by next/font
+     (layout.tsx); only define the derived display alias here. */
   --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
@@ -113,13 +119,13 @@ body {
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-primary {
-  background: linear-gradient(145deg, #18A39E, var(--color-lagoon));
+  background: linear-gradient(145deg, #0B7E7A, var(--color-lagoon-deep));
   color: var(--color-card);
-  box-shadow: 0 2px 4px rgba(43, 33, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 0 2px 4px rgba(43, 33, 24, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(145deg, #1FB5B0, #18A39E);
+  background: linear-gradient(145deg, #0B7E7A, var(--color-lagoon-deep));
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(43, 33, 24, 0.2);
 }
@@ -321,13 +327,13 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 }
 
 .btn-primary-new {
-  background: linear-gradient(145deg, #18A39E, var(--color-lagoon));
+  background: linear-gradient(145deg, #0B7E7A, var(--color-lagoon-deep));
   color: white;
   box-shadow: 0 2px 4px rgba(15, 138, 134, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .btn-primary-new:hover:not(:disabled) {
-  background: linear-gradient(145deg, #1FB5B0, #18A39E);
+  background: linear-gradient(145deg, #0B7E7A, var(--color-lagoon-deep));
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(15, 138, 134, 0.3);
 }
@@ -498,7 +504,7 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
 
 /* Brand badge that sits over the corner where the Spline watermark
    would otherwise peek through — doubles as the app logo lockup. */
-.nextlife-badge {
+.brand-badge {
   position: absolute;
   bottom: 14px;
   right: 14px;
@@ -514,7 +520,7 @@ html[data-texture="reduced"] .comic-banner { background-image: none; }
   user-select: none;
 }
 
-.nextlife-badge:active {
+.brand-badge:active {
   transform: translate(1px, 1px);
   box-shadow: 2px 2px 0 rgba(43, 33, 24, 0.18);
 }
