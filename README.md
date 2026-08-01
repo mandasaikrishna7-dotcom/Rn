@@ -125,140 +125,104 @@ flowchart TD
 ### System Build
 
 ```mermaid
-flowchart TD
-    subgraph SOURCES["Data Sources"]
-        SRC1[RSS Feeds]
-        SRC2[Web Scraping]
-        SRC3[Social APIs]
-        SRC4[Manual Seed]
+flowchart TB
+    subgraph SOURCES["🔌 Data Sources"]
+        direction LR
+        SRC1["RSS Feeds"]
+        SRC2["Web Scraping"]
+        SRC3["Social APIs"]
+        SRC4["Manual Seed"]
     end
 
-    subgraph PIPELINE["Pipeline - run_pipeline.py"]
-        FETCH[fetch_stage] --> NORMALIZE[normalize]
-        NORMALIZE --> SCORE[score_stage]
-        SCORE --> CLUSTER[cluster_stage]
-        CLUSTER --> DIGEST[digest_stage]
+    subgraph PIPELINE["⚙️ Pipeline — run_pipeline.py"]
+        direction LR
+        FETCH["fetch_stage"] --> NORMALIZE["normalize"]
+        NORMALIZE --> SCORE["score_stage"]
+        SCORE --> CLUSTER["cluster_stage"]
+        CLUSTER --> DIGEST["digest_stage"]
     end
 
-    subgraph OUTPUTS["Outputs / Artifacts"]
-        OUT1[outputs/intermediate/raw_items.json]
-        OUT2[outputs/intermediate/scored_items.json]
-        OUT3[outputs/intermediate/clustered_items.json]
-        OUT4[outputs/latest.html]
-        OUT5[outputs/weekly_digest_*.html]
-        OUT6[outputs/user_state/state.json]
+    subgraph ARTIFACTS["📦 Outputs / Artifacts"]
+        direction LR
+        OUT1["raw_items.json"]
+        OUT2["scored_items.json"]
+        OUT3["clustered_items.json"]
+        OUT4["latest.html"]
+        OUT5["weekly_digest_*.html"]
+        OUT6["user_state/state.json"]
     end
 
-    subgraph BACKEND["FastAPI Backend - api/"]
-        API1[GET /bootstrap]
-        API2[GET /feed]
-        API3[GET /feed/:id]
-        API4[POST /items/:id/actions]
-        API5[GET/PUT /profile]
-        API6[POST /onboard]
-        API7[GET /journey]
-        API8[GET /mentors]
-        API9[GET /progress]
-        API10[GET/PUT /settings]
-        API11[POST /run]
-        API12[GET /run/status]
-        API13[GET /digest]
-        API14[GET /sources]
-        API15[GET /outputs/*]
+    subgraph BACKEND["🐍 FastAPI Backend — api/"]
+        direction LR
+        API1["GET /bootstrap"]
+        API2["GET /feed"]
+        API3["GET /feed/:id"]
+        API4["POST /items/:id/actions"]
+        API5["GET/PUT /profile"]
+        API6["POST /onboard"]
+        API7["GET /journey"]
+        API8["GET /mentors"]
+        API9["GET /progress"]
+        API10["GET/PUT /settings"]
+        API11["POST /run"]
+        API12["GET /run/status"]
+        API13["GET /digest"]
+        API14["GET /sources"]
+        API15["GET /outputs/*"]
     end
 
-    subgraph FRONTEND["Next.js 16 Frontend - frontend/"]
-        F1[AppSidebar - void sidebar]
-        F2[FocusBanner - comic banner]
-        F3[HardCard - neo-brutalist cards]
-        F4[PrimaryButton / OutlineButton]
-        F5[TypeBadge / StepDots / Toggle]
-        F6[MediaPrefsPicker]
-        F7[BackendGap - honest stub banners]
-        F8[SectionHeading - display font]
+    subgraph FRONTEND["⚛️ Next.js 16 Frontend — frontend/"]
+        direction TB
+        F_COMP["Components"]
+        F_PAGES["Pages"]
 
-        PAGES[Pages]
-        P1[onboarding - draw compass]
-        P2[home feed - ranked items]
-        P3[item/:id - detail + thread]
-        P4[journey - profile + timeline]
-        P5[mentors - placeholder cards]
-        P6[progress - engagement log]
-        P7[settings - goals + prefs]
+        F_COMP --> FC1["AppSidebar"]
+        F_COMP --> FC2["FocusBanner"]
+        F_COMP --> FC3["HardCard"]
+        F_COMP --> FC4["PrimaryButton / OutlineButton"]
+        F_COMP --> FC5["TypeBadge / StepDots / Toggle"]
+        F_COMP --> FC6["MediaPrefsPicker"]
+        F_COMP --> FC7["BackendGap"]
+        F_COMP --> FC8["SectionHeading"]
+
+        F_PAGES --> FP1["onboarding"]
+        F_PAGES --> FP2["home feed"]
+        F_PAGES --> FP3["item/:id"]
+        F_PAGES --> FP4["journey"]
+        F_PAGES --> FP5["mentors"]
+        F_PAGES --> FP6["progress"]
+        F_PAGES --> FP7["settings"]
     end
 
-    subgraph INFRA["Infrastructure"]
-        PY[Python 3.11 + venv]
-        NODE[Node 24 + npm + Turbopack]
-        UV[uvicorn - backend 127.0.0.1:8000]
-        GEMINI[Gemini API - gemini-3.5-flash-lite / gemini-3.5-flash]
-        TW[Tailwind CSS v4 + next/font]
-        RQ[React Query - server state]
-        LUCIDE[Lucide - line icons]
+    subgraph INFRA["🔧 Infrastructure"]
+        direction LR
+        PY["Python 3.11 + venv"]
+        NODE["Node 24 + npm + Turbopack"]
+        UV["uvicorn — 127.0.0.1:8000"]
+        GEMINI["Gemini API"]
+        TW["Tailwind CSS v4 + next/font"]
+        RQ["React Query"]
+        LUCIDE["Lucide icons"]
     end
 
-    SRC1 --> PIPELINE
-    SRC2 --> PIPELINE
-    SRC3 --> PIPELINE
-    SRC4 --> PIPELINE
+    SOURCES --> PIPELINE
+    PIPELINE --> ARTIFACTS
+    ARTIFACTS --> BACKEND
+    BACKEND --> FRONTEND
+    FRONTEND --> INFRA
 
-    PIPELINE --> OUT1
-    PIPELINE --> OUT2
-    PIPELINE --> OUT3
-    PIPELINE --> OUT4
-    PIPELINE --> OUT5
-    PIPELINE --> OUT6
-
-    OUT6 --> BACKEND
-    OUT4 --> BACKEND
-    OUT3 --> BACKEND
-
-    BACKEND --> API1
-    BACKEND --> API2
-    BACKEND --> API3
-    BACKEND --> API4
-    BACKEND --> API5
-    BACKEND --> API6
-    BACKEND --> API7
-    BACKEND --> API8
-    BACKEND --> API9
-    BACKEND --> API10
-    BACKEND --> API11
-    BACKEND --> API12
-    BACKEND --> API13
-    BACKEND --> API14
-    BACKEND --> API15
-
-    FRONTEND --> F1
-    FRONTEND --> F2
-    FRONTEND --> F3
-    FRONTEND --> F4
-    FRONTEND --> F5
-    FRONTEND --> F6
-    FRONTEND --> F7
-    FRONTEND --> F8
-    FRONTEND --> PAGES
-
-    P1 --> API1
-    P2 --> API2
-    P3 --> API3
-    P4 --> API7
-    P5 --> API8
-    P6 --> API9
-    P7 --> API10
-    P7 --> API11
-
-    INFRA --> PY
-    INFRA --> NODE
-    INFRA --> UV
-    INFRA --> GEMINI
-    INFRA --> TW
-    INFRA --> RQ
-    INFRA --> LUCIDE
+    FP1 --> API1
+    FP2 --> API2
+    FP3 --> API3
+    FP4 --> API7
+    FP5 --> API8
+    FP6 --> API9
+    FP7 --> API10
+    FP7 --> API11
 
     style SOURCES fill:#0B1340,color:#F3F5FB
     style PIPELINE fill:#2A52F5,color:#FFFFFF
-    style OUTPUTS fill:#F3F5FB,color:#0A0A0F
+    style ARTIFACTS fill:#F3F5FB,color:#0A0A0F
     style BACKEND fill:#2A52F5,color:#FFFFFF
     style FRONTEND fill:#F3F5FB,color:#0A0A0F
     style INFRA fill:#0B1340,color:#F3F5FB
