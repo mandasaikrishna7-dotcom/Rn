@@ -1,23 +1,16 @@
 import type { Metadata } from "next";
-import { Archivo_Black, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Lora, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
-const archivo = Archivo_Black({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "400",
-});
-
-const space = Space_Grotesk({
-  variable: "--font-space",
+const lora = Lora({
+  variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -30,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${archivo.variable} ${space.variable} ${jetbrains.variable} h-full`}>
+    <html lang="en" className={`${lora.variable} ${inter.variable} h-full`}>
       <body className="min-h-full">
         <Providers>{children}</Providers>
       </body>

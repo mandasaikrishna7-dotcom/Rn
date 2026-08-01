@@ -1,12 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Link2 } from "lucide-react";
-import { FeedCard } from "@/components/FeedCard";
-import { OutlineButton } from "@/components/ui/Buttons";
-import { HardCard } from "@/components/ui/HardCard";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useBootstrap, useDigestInfo, useFeed } from "@/hooks/useApi";
+import { Plus, Sparkles, Calendar } from "lucide-react";
 
 const PAGE_SIZE = 10;
 
@@ -20,62 +16,114 @@ export default function HomePage() {
   const hasMore = items.length === PAGE_SIZE;
 
   return (
-    <div>
-      <SectionHeading sub={bootstrap?.moment?.note}>Today&rsquo;s curation</SectionHeading>
-
-      {isLoading && offset === 0 ? (
-        <div className="space-y-6">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="hard-card h-48 animate-pulse !shadow-none" />
-          ))}
-        </div>
-      ) : null}
-
-      {error ? (
-        <HardCard className="p-5">
-          <p className="text-sm font-semibold text-ink">Could not load the feed: {error.message}</p>
-          <p className="mono-label mt-2 text-muted">Check that the backend is running on port 8000.</p>
-        </HardCard>
-      ) : null}
-
-      {!isLoading && items.length === 0 && !error ? (
-        <HardCard mesh className="p-10 text-center">
-          <span className="milestone-diamond mb-4" aria-hidden />
-          <p className="font-display text-xl text-ink">No picks match your media preferences this cycle.</p>
-          <p className="mono-label mt-3 text-muted">
-            Enable more media types in Settings, or run a fresh curation.
-          </p>
-        </HardCard>
-      ) : null}
-
-      <div className="space-y-6">
-        {items.map((item) => (
-          <FeedCard key={item.id} item={item} />
-        ))}
+    <div className="space-y-8">
+      {/* Welcome Header */}
+      <div className="text-center">
+        <h1 className="serif-heading text-4xl text-ink mb-4">
+          Welcome to Your Journey
+        </h1>
+        <p className="text-muted text-lg max-w-2xl mx-auto">
+          {bootstrap?.moment?.note || "Your personalized curation awaits"}
+        </p>
       </div>
 
-      {hasMore ? (
-        <div className="mt-8 flex justify-center">
-          <OutlineButton onClick={() => setOffset((o) => o + PAGE_SIZE)} disabled={isLoading}>
-            Load more
-          </OutlineButton>
+      {/* Today's Curation */}
+      <div>
+        <div className="flex items-center gap-3 mb-6">
+          <Sparkles size={24} className="text-brass" />
+          <h2 className="serif-heading text-2xl text-ink">Today's Curation</h2>
         </div>
-      ) : null}
 
-      {digest?.html_url ? (
-        <div className="angle-divider mt-12 mb-8" aria-hidden />
-      ) : null}
-      {digest?.html_url ? (
-        <a
-          href={digest.html_url}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-cobalt-dark underline-offset-4 hover:underline"
-        >
-          <Link2 size={15} />
-          Open the full weekly digest — the agent&rsquo;s own HTML report
-        </a>
-      ) : null}
+        {isLoading && offset === 0 ? (
+          <div className="space-y-6">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="journal-card h-48 animate-pulse" />
+            ))}
+          </div>
+        ) : null}
+
+        {error ? (
+          <div className="journal-card p-6 text-center">
+            <p className="text-ink font-semibold">Could not load the feed: {error.message}</p>
+            <p className="text-muted mt-2">Check that the backend is running on port 8000.</p>
+          </div>
+        ) : null}
+
+        {!isLoading && items.length === 0 && !error ? (
+          <div className="journal-card p-12 text-center">
+            <Calendar size={48} className="text-brass mx-auto mb-4" />
+            <h3 className="serif-heading text-xl text-ink mb-2">No picks today</h3>
+            <p className="text-muted mb-6">
+              Try enabling more media types in Settings, or run a fresh curation.
+            </p>
+            <button className="btn-base btn-primary">
+              <Plus size={16} />
+              Run Curation
+            </button>
+          </div>
+        ) : null}
+
+        <div className="space-y-6">
+          {items.map((item, index) => (
+            <div 
+              key={item.id} 
+              className={`journal-card p-6 settle-in stagger-${Math.min(index + 1, 4)}`}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="serif-heading text-xl text-ink mb-2">
+                    <a 
+                      href={`/item/${item.id}`}
+                      className="hover:text-brass transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  </h3>
+                  <p className="text-muted leading-relaxed mb-4">
+                    {item.summary}
+                  </p>
+                </div>
+              </div>
+
+              {/* Rationale */}
+              <div className="bg-brass/10 border-l-4 border-brass p-4 mb-4">
+                <div className="flex items-start gap-2">
+                  <Sparkles size={16} className="text-brass mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-ink mb-1">Why this was picked</p>
+                    <p className="text-sm text-muted italic">{item.rationale}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-wrap gap-2">
+                <button className="btn-base btn-primary px-4 py-2 text-sm">
+                  Save
+                </button>
+                <button className="btn-base btn-secondary px-4 py-2 text-sm">
+                  Already did this
+                </button>
+                <button className="btn-base btn-secondary px-4 py-2 text-sm">
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {hasMore && (
+          <div className="text-center mt-8">
+            <button 
+              onClick={() => setOffset((o) => o + PAGE_SIZE)}
+              disabled={isLoading}
+              className="btn-base btn-secondary"
+            >
+              Load More
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

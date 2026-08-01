@@ -37,6 +37,8 @@ DEFAULT_STATE: dict[str, Any] = {
     "journey": [],
     "actions": [],
     "feedback_history": [],
+    "notes": [],
+    "flashcards": [],
     "settings": {"focus": "", "reduced_texture": False},
 }
 
@@ -100,3 +102,53 @@ class StateStore:
             state["journey"].append({"date": _now_iso(), "note": note, "snapshot": snapshot})
 
         return self.mutate(_apply)
+
+    def add_note(self, title: str, content: str, linked_item_ids: list[str] = None, 
+                 tags: list[str] = None, source_type: str = "manual") -> dict[str, Any]:
+        """Add a new note to the user's collection."""
+        if linked_item_ids is None:
+            linked_item_ids = []
+        if tags is None:
+            tags = []
+            
+        note = {
+            "id": f"note_{int(datetime.now(UTC).timestamp() * 1000)}",
+            "title": title,
+            "content": content,
+            "linked_item_ids": linked_item_ids,
+            "tags": tags,
+            "source_type": source_type,
+            "created_at": _now_iso(),
+            "updated_at": _now_iso(),
+        }
+        
+        return self.mutate(lambda state: state["notes"].append(note))
+
+    def update_note(self, note_id: str, updates: dict[str, Any]) -> dict[str, Any]:
+        """Update an existing note."""
+        def _apply(state: dict[str, Any]) -> None:
+            for note in state["notes"]:
+                if note["id"] == note_id:
+                    note.update(updates)
+                    note["updated_at"] = _now_iso()
+                    break
+        
+        return self.mutate(_apply)
+
+    def delete_note(self, note_id: str) -> dict[str, Any]:
+        """Delete a note."""
+        return self.mutate(lambda state: setattr(state, "notes", 
+            [note for note in state["notes"] if note["id"] != note_id]))
+
+    def add_flashcard_set(self, note_id: str, flashcards: list[dict[str, str]]) -> dict[str, Any]:
+        """Add flashcards generated from a note."""
+        flashcard_set = {
+            "id": f"flashcard_{int(datetime.now(UTC).timestamp() * 1000)}",
+            "note_id": note_id,
+            "cards": flashcards,
+            "created_at": _now_iso(),
+            "last_reviewed": None,
+            "due_date": _now_iso(),  # Due immediately
+        }
+        
+        return self.mutate(lambda state: state["flashcards"].append(flashcard_set))
