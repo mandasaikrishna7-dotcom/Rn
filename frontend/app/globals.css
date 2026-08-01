@@ -1,0 +1,359 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Blue Neo-Brutalist / Spider-Verse token system                      */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  --color-void: #0b1340;
+  --color-cobalt: #2a52f5;
+  --color-cobalt-dark: #1b3acc;
+  --color-halftone: #00c2d1;
+  --color-magenta: #ff2d78;
+  --color-paper: #f3f5fb;
+  --color-ink: #0a0a0f;
+  --color-card: #ffffff;
+  --color-muted: #5a6072;
+
+  --font-display: var(--font-archivo), "Arial Black", "Segoe UI", sans-serif;
+  --font-body: var(--font-space), "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", "IBM Plex Mono", Consolas, monospace;
+
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-sm: 2px 2px 0 var(--color-ink);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* Accessible focus ring — doubles as the halftone-cyan design touch */
+:where(a, button, input, textarea, select, [role="switch"]):focus-visible {
+  outline: 3px solid var(--color-halftone);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-cobalt);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography roles                                                    */
+/* ------------------------------------------------------------------ */
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hard cards — white surface, ink border, flat shadow                 */
+/* ------------------------------------------------------------------ */
+
+.hard-card {
+  position: relative;
+  background: var(--color-card);
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  box-shadow: var(--shadow-hard);
+}
+
+.hard-card--dashed {
+  border-style: dashed;
+}
+
+.hard-card--mesh {
+  background-color: var(--color-card);
+  background-image: radial-gradient(rgba(0, 194, 209, 0.16) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+/* Paper grain lives INSIDE cards only — this is what reduced-texture
+   mode toggles off. */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons — neo-brutalist, press collapses the shadow                 */
+/* ------------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 0;
+  border: 2px solid var(--color-ink);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.12s ease;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-cobalt);
+  color: #fff;
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-cobalt-dark);
+}
+
+.btn-outline {
+  background: var(--color-card);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--color-paper);
+}
+
+.press:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Magenta glitch edge — signature flourish for primary CTAs only */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid var(--color-magenta);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.glitch::before {
+  transform: translate(3px, -3px);
+}
+
+.glitch::after {
+  transform: translate(-3px, 3px);
+}
+
+.glitch:hover::before,
+.glitch:hover::after,
+.glitch:focus-visible::before,
+.glitch:focus-visible::after {
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------------ */
+/* Comic focus banner (signature: mesh + magenta diamond + ink rule)   */
+/* ------------------------------------------------------------------ */
+
+.comic-banner {
+  border-bottom: 3px solid var(--color-ink);
+  background-color: var(--color-paper);
+  background-image: radial-gradient(rgba(0, 194, 209, 0.13) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+.milestone-diamond {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  background: var(--color-magenta);
+  border: 2px solid var(--color-ink);
+  box-shadow: 2px 2px 0 var(--color-ink);
+}
+
+/* Angled comic-panel divider — use at most once or twice per page */
+.angle-divider {
+  height: 3px;
+  background: var(--color-ink);
+  transform: skewX(-18deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Neo-brutalist switch                                                */
+/* ------------------------------------------------------------------ */
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 52px;
+  height: 28px;
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  padding: 0;
+}
+
+.switch-on {
+  background: var(--color-cobalt);
+}
+
+.switch-off {
+  background: var(--color-ink);
+}
+
+.switch-knob {
+  display: block;
+  height: 20px;
+  width: 20px;
+  background: #fff;
+  border: 2px solid var(--color-ink);
+  transition: transform 0.1s ease;
+}
+
+.switch-on .switch-knob {
+  transform: translateX(22px);
+}
+
+.switch-off .switch-knob {
+  transform: translateX(2px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Quiet reflection card — deliberately restrained, no mesh/border     */
+/* ------------------------------------------------------------------ */
+
+.quiet-quote {
+  padding: 40px 32px;
+  background: transparent;
+}
+
+.quiet-quote blockquote {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Inputs                                                              */
+/* ------------------------------------------------------------------ */
+
+.hard-input {
+  width: 100%;
+  border-radius: 0;
+  border: 2px solid var(--color-ink);
+  background: var(--color-card);
+  color: var(--color-ink);
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.hard-input:focus {
+  border-color: var(--color-cobalt);
+  box-shadow: 2px 2px 0 var(--color-ink);
+}
+
+.hard-input::placeholder {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion                                                              */
+/* ------------------------------------------------------------------ */
+
+@keyframes settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.settle {
+  animation: settle-in 0.15s ease-out both;
+}
+
+@keyframes page-turn {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-turn {
+  animation: page-turn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settle,
+  .page-turn {
+    animation: none;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    transition: none;
+    opacity: 0;
+  }
+
+  .glitch:hover::before,
+  .glitch:hover::after {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced-texture accessibility mode: kills grain + halftone fills    */
+/* ------------------------------------------------------------------ */
+
+html[data-texture="reduced"] .grain::before {
+  display: none;
+}
+
+html[data-texture="reduced"] .hard-card--mesh,
+html[data-texture="reduced"] .comic-banner {
+  background-image: none;
+}
