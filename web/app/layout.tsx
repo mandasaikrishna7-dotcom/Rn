@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lora, Inter } from "next/font/google";
+import { Lora, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 
@@ -15,6 +15,13 @@ const inter = Inter({
   display: "swap",
 });
 
+const jetbrains = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500"],
+});
+
 export const metadata: Metadata = {
   title: "NextSelf — Your Growth Compass",
   description:
@@ -23,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${lora.variable} ${inter.variable} h-full`}>
+    <html lang="en" className={`${lora.variable} ${inter.variable} ${jetbrains.variable} h-full`}>
       <body className="min-h-full">
         <Providers>{children}</Providers>
       </body>

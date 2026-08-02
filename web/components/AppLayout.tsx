@@ -45,29 +45,28 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         transform transition-transform lg:translate-x-0 flex flex-col
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="leather-panel flex h-full flex-col">
+        <div className="flex h-full flex-col bg-paper border-r border-[#E8E3DA]">
           {/* Header */}
-          <div className="p-6" style={{ borderBottom: '1px solid rgba(15,138,134,0.25)' }}>
+          <div className="p-6 border-b border-[#E8E3DA]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-[6px] bg-lagoon text-sm font-black text-white shadow-[2px_2px_0_rgba(0,0,0,0.35)]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cobalt text-sm font-black text-white">
                   N
                 </span>
-                <h1 className="serif-heading text-xl" style={{ color: '#FFFFFF' }}>NextSelf</h1>
+                <h1 className="serif-heading text-xl text-ink font-medium">NextSelf</h1>
               </div>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="lg:hidden"
-                style={{ color: '#FFFFFF' }}
+                className="lg:hidden text-ink"
               >
                 <X size={20} />
               </button>
             </div>
-            <p className="text-sm mt-1.5" style={{ color: 'rgba(255,255,255,0.7)' }}>Your Growth Compass</p>
+            <p className="text-sm mt-1.5 text-muted">Your Growth Compass</p>
           </div>
-
+ 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1">
+          <nav className="flex-1 p-4 space-y-1 bg-paper">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               const Icon = item.icon;
@@ -77,33 +76,33 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   key={item.name}
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
-                  className="nav-item"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200"
                   style={{
-                    color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.7)',
-                    backgroundColor: isActive ? 'rgba(15,138,134,0.25)' : 'transparent',
-                    borderLeft: isActive ? '3px solid var(--color-lagoon)' : '3px solid transparent',
+                    color: isActive ? 'var(--color-cobalt)' : 'var(--color-text-muted)',
+                    backgroundColor: isActive ? 'rgba(42,82,245,0.06)' : 'transparent',
+                    borderLeft: isActive ? '3px solid var(--color-cobalt)' : '3px solid transparent',
                   }}
                 >
-                  <Icon size={18} className={isActive ? 'text-[#6FD4CE]' : undefined} />
+                  <Icon size={18} className={isActive ? 'text-cobalt' : 'text-muted'} />
                   <span className="font-medium">{item.name}</span>
                 </Link>
               );
             })}
           </nav>
-
+ 
           {/* Footer */}
-          <div className="p-4" style={{ borderTop: '1px solid rgba(15,138,134,0.25)' }}>
-            <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <div className="p-4 border-t border-[#E8E3DA]">
+            <p className="text-xs text-center text-muted/60">
               Built with care for your journey
             </p>
           </div>
         </div>
       </aside>
-
+ 
       {/* Main content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile header */}
-        <header className="lg:hidden bg-white p-4" style={{ borderBottom: '1px solid rgba(15,138,134,0.2)' }}>
+        <header className="lg:hidden bg-paper p-4 border-b border-[#E8E3DA]">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -111,11 +110,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             >
               <Menu size={20} />
             </button>
-            <h1 className="serif-heading text-lg text-ink">NextSelf</h1>
+            <h1 className="serif-heading text-lg text-ink font-medium">NextSelf</h1>
             <div className="w-8" />
           </div>
         </header>
-
+ 
         {/* Page content */}
         <div className="flex-1 overflow-auto bg-paper">
           <div className="max-w-3xl mx-auto py-10 px-6 lg:px-8">

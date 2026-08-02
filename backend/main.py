@@ -8,7 +8,7 @@ kicks it off as a subprocess.
 Real vs stub:
 - Feed, item detail, sources, digest:  real pipeline artifacts.
 - Profile, journey, actions, settings: real user-state store (new, tiny).
-- Mentors & experiences: STUB (no data source exists in the backend).
+- Mentors & experiences: curated seed catalog matched to profile (connect/booking stub).
 """
 
 from __future__ import annotations
@@ -27,6 +27,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
 
 from backend.feed import FeedBuilder
+from backend.mentors import list_mentors
 from backend.state import StateStore, _now_iso
 from config.settings import BASE_DIR, OUTPUT_DIR
 
@@ -138,6 +139,12 @@ def get_profile() -> dict[str, Any]:
 def update_profile(payload: dict[str, Any]) -> dict[str, Any]:
     allowed_keys = {"who_now", "aspirations", "habits", "media_prefs"}
     updates = {key: payload[key] for key in allowed_keys if key in payload}
+    before = store.load()
+    previous_profile = {
+        "who_now": before["profile"].get("who_now", ""),
+        "aspirations": list(before["profile"].get("aspirations", [])),
+        "habits": list(before["profile"].get("habits", [])),
+    }
     store.mutate(
         lambda state: (
             state["profile"].update(updates),
@@ -145,7 +152,7 @@ def update_profile(payload: dict[str, Any]) -> dict[str, Any]:
         )[0]
     )
     if store.load().get("onboarded"):
-        store.record_profile_change("Profile edited from the Journey page.")
+        store.record_profile_change("Profile edited from the Journey page.", previous=previous_profile)
     return {"ok": True, "ack": "Noted. Your next picks will be shaped by this."}
 
 
@@ -253,41 +260,13 @@ def item_action(item_id: str, payload: dict[str, Any]) -> dict[str, Any]:
 
 
 # --------------------------------------------------------------------------- #
-# Mentors & experiences (STUB — no backend data source)
+# Mentors & experiences (curated catalog — connect/booking still stubbed)
 # --------------------------------------------------------------------------- #
 
 @app.get("/api/mentors")
 def mentors() -> dict[str, Any]:
-    return {
-        "stub": True,
-        "note": "No mentor/experience data source exists in the backend yet. These are placeholders.",
-        "items": [
-            {
-                "id": "mentor-stub-1",
-                "kind": "person",
-                "name": "Placeholder: Practitioner",
-                "context": "A real mentor suggestion would be derived from your aspirations once the backend can search people.",
-                "why": "Stub — backend gap.",
-                "stub": True,
-            },
-            {
-                "id": "mentor-stub-2",
-                "kind": "community",
-                "name": "Placeholder: Community",
-                "context": "A real community match would come from an events/communities data source.",
-                "why": "Stub — backend gap.",
-                "stub": True,
-            },
-            {
-                "id": "mentor-stub-3",
-                "kind": "event",
-                "name": "Placeholder: Local experience",
-                "context": "A real local event or challenge suggestion needs a geo+calendar data source.",
-                "why": "Stub — backend gap.",
-                "stub": True,
-            },
-        ],
-    }
+    state = store.load()
+    return list_mentors(state["profile"], state.get("settings") or {})
 
 
 # --------------------------------------------------------------------------- #

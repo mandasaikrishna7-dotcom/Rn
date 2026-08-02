@@ -22,12 +22,12 @@ export function TypeBadge({
   return (
     <span
       className={cn(
-        "mono-label inline-flex items-center gap-1.5 border-2 border-ink bg-void px-2 py-1 text-ink",
+        "mono-label inline-flex items-center gap-1.5 border border-cobalt/20 bg-cobalt/5 px-2.5 py-0.5 rounded-full text-[10px] text-cobalt",
         className,
       )}
     >
-      <Icon size={12} className="text-halftone" strokeWidth={2} />
-      <span className="text-white">{meta.label}</span>
+      <Icon size={10} className="text-cobalt" strokeWidth={2} />
+      <span>{meta.label}</span>
     </span>
   );
 }

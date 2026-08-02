@@ -19,14 +19,14 @@ export function FocusBanner() {
     .join("");
 
   return (
-    <header className="comic-banner sticky top-0 z-20">
+    <header className="bg-paper border-b border-[#E8E3DA] sticky top-0 z-20">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 md:px-8">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="milestone-diamond shrink-0" aria-hidden />
+          <span className="milestone-diamond shrink-0 !bg-cobalt" aria-hidden />
           <p className="truncate text-sm font-semibold text-ink">
             {focus ? (
               <>
-                Focused on <span className="font-display normal-case">&ldquo;{focus}&rdquo;</span> this week
+                Focused on <span className="font-display normal-case italic font-medium">&ldquo;{focus}&rdquo;</span> this week
               </>
             ) : (
               <>Setting your compass — picks reflect the weekly digest</>
@@ -35,11 +35,11 @@ export function FocusBanner() {
         </div>
         <div className="flex shrink-0 items-center gap-3">
           {digest?.digest_date ? (
-            <span className="mono-label hidden text-muted sm:inline">Digest · {digest.digest_date}</span>
+            <span className="mono-label hidden text-muted/80 sm:inline">Digest · {digest.digest_date}</span>
           ) : null}
           <span
             title={data?.profile?.who_now || "You"}
-            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-ink bg-cobalt font-display text-[11px] text-white shadow-[2px_2px_0_#0a0a0f]"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#E8E3DA] bg-cobalt font-display text-[11px] text-white font-medium shadow-sm"
           >
             {initials || "·"}
           </span>

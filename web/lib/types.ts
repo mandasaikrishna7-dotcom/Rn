@@ -88,6 +88,12 @@ export type AckResponse = {
   ack: string;
 };
 
+export type JourneyChanges = {
+  who_now?: { before: string; after: string };
+  aspirations?: { added: string[]; removed: string[] };
+  habits?: { added: string[]; removed: string[] };
+};
+
 export type JourneyEntry = {
   date: string;
   note: string;
@@ -96,6 +102,7 @@ export type JourneyEntry = {
     aspirations: string[];
     habits: string[];
   };
+  changes?: JourneyChanges | null;
 };
 
 export type JourneyResponse = {
@@ -107,6 +114,7 @@ export type Mentor = {
   id: string;
   kind: "person" | "community" | "event";
   name: string;
+  focus_area: string;
   context: string;
   why: string;
   stub: boolean;
@@ -114,7 +122,9 @@ export type Mentor = {
 
 export type MentorsResponse = {
   stub: boolean;
-  note: string;
+  note: string | null;
+  contact_stub: boolean;
+  contact_note: string;
   items: Mentor[];
 };
 

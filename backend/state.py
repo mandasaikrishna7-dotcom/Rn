@@ -47,6 +47,51 @@ def _now_iso() -> str:
     return datetime.now(UTC).isoformat()
 
 
+def _list_delta(before: list[Any], after: list[Any]) -> dict[str, list[str]] | None:
+    before_set = {str(item) for item in before}
+    after_set = {str(item) for item in after}
+    added = sorted(after_set - before_set)
+    removed = sorted(before_set - after_set)
+    if not added and not removed:
+        return None
+    return {"added": added, "removed": removed}
+
+
+def _compute_profile_changes(previous: dict[str, Any], current: dict[str, Any]) -> dict[str, Any] | None:
+    changes: dict[str, Any] = {}
+    prev_who = str(previous.get("who_now") or "")
+    curr_who = str(current.get("who_now") or "")
+    if prev_who.strip() != curr_who.strip():
+        changes["who_now"] = {"before": prev_who, "after": curr_who}
+
+    aspirations = _list_delta(previous.get("aspirations") or [], current.get("aspirations") or [])
+    if aspirations:
+        changes["aspirations"] = aspirations
+
+    habits = _list_delta(previous.get("habits") or [], current.get("habits") or [])
+    if habits:
+        changes["habits"] = habits
+
+    return changes or None
+
+
+def _summarize_changes(changes: dict[str, Any] | None) -> str | None:
+    if not changes:
+        return None
+    parts: list[str] = []
+    if "who_now" in changes:
+        parts.append("who you are now")
+    if "aspirations" in changes:
+        parts.append("who you're becoming")
+    if "habits" in changes:
+        parts.append("habits in motion")
+    if not parts:
+        return None
+    if len(parts) == 1:
+        return f"Updated {parts[0]}."
+    return f"Updated {' and '.join(parts[:-1])} and {parts[-1]}."
+
+
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     merged = copy.deepcopy(base)
     for key, value in override.items():
@@ -69,7 +114,7 @@ class StateStore:
             payload: dict[str, Any] = {}
             if self.path.exists():
                 try:
-                    payload = json.loads(self.path.read_text(encoding="utf-8"))
+                    payload = json.loads(self.path.read_text(encoding="utf-8-sig"))
                 except (json.JSONDecodeError, OSError):
                     payload = {}
             if not isinstance(payload, dict):
@@ -92,14 +137,22 @@ class StateStore:
         entry = {"item_id": item_id, "action": action, "title": item_title, "at": _now_iso()}
         return self.mutate(lambda state: (state["actions"].append(entry), state["feedback_history"].append(entry)))
 
-    def record_profile_change(self, note: str) -> dict[str, Any]:
+    def record_profile_change(self, note: str, previous: dict[str, Any] | None = None) -> dict[str, Any]:
         def _apply(state: dict[str, Any]) -> None:
             snapshot = {
                 "who_now": state["profile"].get("who_now", ""),
                 "aspirations": list(state["profile"].get("aspirations", [])),
                 "habits": list(state["profile"].get("habits", [])),
             }
-            state["journey"].append({"date": _now_iso(), "note": note, "snapshot": snapshot})
+            changes = _compute_profile_changes(previous, state["profile"]) if previous else None
+            entry: dict[str, Any] = {
+                "date": _now_iso(),
+                "note": _summarize_changes(changes) or note,
+                "snapshot": snapshot,
+            }
+            if changes:
+                entry["changes"] = changes
+            state["journey"].append(entry)
 
         return self.mutate(_apply)
 

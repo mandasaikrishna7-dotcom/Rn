@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Pencil, X } from "lucide-react";
+import { Pencil, X } from "lucide-react";
+import { CompassTimeline } from "@/components/CompassTimeline";
 import { OutlineButton, PrimaryButton } from "@/components/ui/Buttons";
 import { HardCard } from "@/components/ui/HardCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StringListEditor } from "@/components/ui/StringListEditor";
 import { useJourney, useUpdateProfile } from "@/hooks/useApi";
-import { cn, formatDate } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 
 export default function JourneyPage() {
-  const { data, isLoading } = useJourney();
+  const { data, isLoading, error } = useJourney();
   const update = useUpdateProfile();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<Profile | null>(null);
@@ -19,6 +19,14 @@ export default function JourneyPage() {
 
   if (isLoading || !data) {
     return <div className="hard-card h-72 animate-pulse !shadow-none" />;
+  }
+  if (error) {
+    return (
+      <HardCard className="p-6 text-center">
+        <p className="font-semibold text-ink">Could not load journey: {error.message}</p>
+        <p className="mt-2 text-sm text-muted">Check that the backend is running on port 8000.</p>
+      </HardCard>
+    );
   }
   const journeyData = data;
 
@@ -149,73 +157,11 @@ export default function JourneyPage() {
 
       {/* Timeline of how the profile has evolved */}
       <section className="mt-12">
-        <SectionHeading sub="Every confirmation becomes an entry">How your compass has turned</SectionHeading>
-        {journeyData.journey.length === 0 ? (
-          <HardCard mesh className="p-5 text-sm italic text-muted">
-            No revisions yet. The first entry will appear here the moment you confirm your onboarding.
-          </HardCard>
-        ) : (
-          <ol className="relative ml-2 space-y-5 border-l-[3px] border-ink pl-6">
-            {journeyData.journey.map((entry, idx) => (
-              <TimelineEntry key={`${entry.date}-${idx}`} {...entry} last={idx === journeyData.journey.length - 1} />
-            ))}
-          </ol>
-        )}
+        <SectionHeading sub="Every confirmation becomes an entry — see how identity, goals, and habits have shifted.">
+          How Your Compass Has Turned
+        </SectionHeading>
+        <CompassTimeline journey={journeyData.journey} />
       </section>
     </div>
-  );
-}
-
-function TimelineEntry({
-  date,
-  note,
-  snapshot,
-  last,
-}: {
-  date: string;
-  note: string;
-  snapshot: { who_now: string; aspirations: string[]; habits: string[] };
-  last: boolean;
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <li className="relative">
-      <span
-        className={cn(
-          "milestone-diamond absolute -left-[34px] top-1 h-4 w-4",
-          last && "glitch",
-        )}
-        aria-hidden
-      />
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="block w-full border-2 border-ink bg-card px-4 py-3 text-left shadow-[2px_2px_0_#0a0a0f] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0_#0a0a0f]"
-        aria-expanded={open}
-      >
-        <div className="flex items-center justify-between gap-3">
-          <p className="flex items-center gap-2 text-sm font-semibold text-ink">
-            {note}
-            <ChevronDown
-              size={14}
-              className={cn("text-cobalt transition-transform", open && "rotate-180")}
-            />
-          </p>
-          <span className="mono-label shrink-0 !text-[10px] text-muted">{formatDate(date)}</span>
-        </div>
-      </button>
-      {open && !last ? (
-        <div className="mt-2 border-2 border-dashed border-ink bg-paper px-4 py-3 text-xs text-muted">
-          <p>
-            <b className="font-semibold text-ink">Now:</b>{" "}
-            {snapshot.who_now || <i className="text-muted">(unwritten)</i>}
-          </p>
-          {snapshot.aspirations.length ? (
-            <p className="mt-1">
-              <b className="font-semibold text-ink">Becoming:</b> {snapshot.aspirations.join(" · ")}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-    </li>
   );
 }

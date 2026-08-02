@@ -51,7 +51,7 @@ The repo has **no HTTP API of its own** — it was a CLI pipeline
 | GET/PUT | `/profile` | read / edit the seed profile |
 | POST | `/onboard` | confirm onboarding (records first journey entry) |
 | GET | `/journey` | profile + revision timeline |
-| GET | `/mentors` | **STUB** (see matrix) |
+| GET | `/mentors` | curated catalog matched to profile (connect stubbed) |
 | GET | `/progress` | engagement log + reflection prompts |
 | GET/PUT | `/settings` | goals/habits, media prefs, focus, texture toggle |
 | POST/GET | `/run`, `/run/status` | trigger pipeline run / poll status |
@@ -65,7 +65,8 @@ The repo has **no HTTP API of its own** — it was a CLI pipeline
 | Media-type filter on feed | ✅ **Real** | preference stored in state × item metadata (article/paper/video) |
 | Profile / journey history / actions / settings | ✅ **Real** | new `outputs/user_state/state.json` store |
 | "Run curation" (pipeline trigger) | ✅ **Real** | subprocess of `run_pipeline.py` |
-| Mentors & Experiences | 🟠 **Stubbed** | backend has no people/events data source — placeholder cards with a visible banner |
+| Mentors & Experiences | ✅ **Real** (partial) | curated seed catalog matched to profile; connect/booking still stubbed |
+| "How Your Compass Has Turned" (Journey timeline) | ✅ **Real** | revision history with before/after deltas from user state |
 | Per-user personalized curation | 🟠 **Partial** | the pipeline curates the same feed for everyone; profile edits persist and are acknowledged but don't re-rank picks yet |
 | Onboarding → feed "shaping" | 🟠 **Acknowledgment only** | profile edits save and are acknowledged ("next picks will be shaped by this") — no live re-training |
 

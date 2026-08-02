@@ -56,6 +56,7 @@ export function useOnboard() {
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ["bootstrap"] });
       void qc.invalidateQueries({ queryKey: ["journey"] });
+      void qc.invalidateQueries({ queryKey: ["mentors"] });
     },
   });
 }
@@ -68,6 +69,7 @@ export function useUpdateProfile() {
       void qc.invalidateQueries({ queryKey: ["bootstrap"] });
       void qc.invalidateQueries({ queryKey: ["journey"] });
       void qc.invalidateQueries({ queryKey: ["settings"] });
+      void qc.invalidateQueries({ queryKey: ["mentors"] });
     },
   });
 }

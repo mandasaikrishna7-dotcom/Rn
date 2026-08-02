@@ -9,16 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.98",
     "@tanstack/react-query": "^5.101.4",
     "@tiptap/react": "^3.29.2",
     "@tiptap/starter-kit": "^3.29.2",
     "@types/qrcode": "^1.5.6",
+    "@types/three": "^0.185.3",
     "framer-motion": "^12.43.0",
     "lucide-react": "^1.28.0",
     "next": "16.2.12",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5",

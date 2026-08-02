@@ -450,7 +450,7 @@ All endpoints are prefixed with `/api`. The frontend proxies via `next.config.ts
 | GET/PUT | `/profile` | Read / edit the seed profile |
 | POST | `/onboard` | Confirm onboarding (records first journey entry) |
 | GET | `/journey` | Profile + revision timeline |
-| GET | `/mentors` | **STUB** — placeholder cards (dashed border) |
+| GET | `/mentors` | Curated catalog matched to profile (connect stubbed) |
 | GET | `/progress` | Engagement log + reflection prompts |
 | GET/PUT | `/settings` | Goals/habits, media prefs, focus, texture toggle |
 | POST/GET | `/run` | Trigger pipeline run / check status |
@@ -468,7 +468,8 @@ All endpoints are prefixed with `/api`. The frontend proxies via `next.config.ts
 | Media-type filter on feed | ✅ **Real** | User preference × item metadata |
 | Profile / journey history / actions / settings | ✅ **Real** | `outputs/user_state/state.json` |
 | "Run curation" (pipeline trigger) | ✅ **Real** | Subprocess of `run_pipeline.py` |
-| Mentors & Experiences | 🟠 **Stubbed** | No people/events data source — dashed placeholder cards |
+| Mentors & Experiences | ✅ **Real** (partial) | Curated seed catalog (`backend/data/mentors_catalog.json`) matched to profile; connect/booking still stubbed |
+| "How Your Compass Has Turned" (Journey timeline) | ✅ **Real** | Revision history from `outputs/user_state/state.json` with before/after deltas |
 | Per-user personalized curation | 🟠 **Partial** | Same feed for everyone; profile edits persist but don't re-rank yet |
 | Onboarding → feed shaping | 🟠 **Acknowledgment only** | Profile saves and is acknowledged; no live re-training |
 

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "mentor-alex-chen",
+    "kind": "person",
+    "name": "Alex Chen",
+    "focus_area": "Creative direction",
+    "context": "Independent filmmaker and visual storyteller who mentors early-career directors on blocking, shot language, and narrative pacing.",
+    "why_template": "Your aspirations mention visual storytelling — Alex translates script ideas into compelling scene language.",
+    "focus_tags": ["film", "filmmaking", "directing", "visual", "storytelling", "creative", "cinema", "video"]
+  },
+  {
+    "id": "mentor-sarah-okonkwo",
+    "kind": "person",
+    "name": "Sarah Okonkwo",
+    "focus_area": "Writing craft",
+    "context": "Essayist and long-form writer who runs small cohorts on finding voice, revision discipline, and publishing rhythm.",
+    "why_template": "You're building a writing practice — Sarah focuses on voice, structure, and sustainable output.",
+    "focus_tags": ["writing", "essay", "author", "journal", "publish", "craft", "reading", "words"]
+  },
+  {
+    "id": "mentor-marcus-reed",
+    "kind": "person",
+    "name": "Marcus Reed",
+    "focus_area": "Leadership & systems",
+    "context": "Operator-turned-coach who helps builders translate ambition into weekly systems without burning out.",
+    "why_template": "Your habits and goals point toward sustained execution — Marcus specializes in operational clarity.",
+    "focus_tags": ["leadership", "systems", "productivity", "habits", "founder", "manager", "discipline", "execution"]
+  },
+  {
+    "id": "mentor-priya-nair",
+    "kind": "person",
+    "name": "Priya Nair",
+    "focus_area": "Research & learning",
+    "context": "Research scientist who coaches learners on reading papers critically, note-taking, and building knowledge loops.",
+    "why_template": "You're deepening how you learn — Priya helps turn reading into durable understanding.",
+    "focus_tags": ["research", "learning", "science", "study", "paper", "knowledge", "curiosity", "academic"]
+  },
+  {
+    "id": "community-film-lab",
+    "kind": "community",
+    "name": "Open Film Lab",
+    "focus_area": "Peer critique",
+    "context": "Weekly virtual table reads and rough-cut reviews for filmmakers at every level — feedback without gatekeeping.",
+    "why_template": "A community aligned with your creative direction — structured critique, not passive consumption.",
+    "focus_tags": ["film", "filmmaking", "community", "critique", "directing", "video", "creative"]
+  },
+  {
+    "id": "community-writers-guild",
+    "kind": "community",
+    "name": "Draft & Ship Guild",
+    "focus_area": "Accountability",
+    "context": "Small writing circles that commit to shipping one piece every two weeks — drafts, not perfection.",
+    "why_template": "Matches your writing aspirations with peer accountability and gentle deadlines.",
+    "focus_tags": ["writing", "accountability", "community", "publish", "essay", "habits"]
+  },
+  {
+    "id": "community-builders-circle",
+    "kind": "community",
+    "name": "Builders Circle",
+    "focus_area": "Founder peer group",
+    "context": "Fortnightly sessions for people building products, habits, or careers — share blockers, not just wins.",
+    "why_template": "Your growth focus involves building something real — this group trades tactics, not hype.",
+    "focus_tags": ["founder", "startup", "building", "leadership", "systems", "habits", "community"]
+  },
+  {
+    "id": "event-shot-list-sprint",
+    "kind": "event",
+    "name": "Shot List Sprint (weekend)",
+    "focus_area": "Hands-on filmmaking",
+    "context": "Two-day challenge: plan, shoot, and cut a 60-second visual story with a mentor on call for blocking questions.",
+    "why_template": "An experience that turns film theory into a finished micro-piece — aligned with your visual goals.",
+    "focus_tags": ["film", "filmmaking", "workshop", "video", "directing", "creative", "experience"]
+  },
+  {
+    "id": "event-writing-retreat",
+    "kind": "event",
+    "name": "Quiet Hours Writing Retreat",
+    "focus_area": "Deep writing",
+    "context": "Half-day in-person or virtual retreat: three focused writing blocks, one shared reading, no networking pressure.",
+    "why_template": "A structured experience for the writing habit you're cultivating — depth over volume.",
+    "focus_tags": ["writing", "retreat", "habits", "essay", "focus", "experience"]
+  },
+  {
+    "id": "event-learning-sprint",
+    "kind": "event",
+    "name": "Paper-to-Insight Sprint",
+    "focus_area": "Research skills",
+    "context": "Guided session on skimming, annotating, and synthesizing one paper into a one-page insight memo.",
+    "why_template": "Supports your learning goals with a concrete method for turning reading into insight.",
+    "focus_tags": ["research", "learning", "paper", "study", "science", "knowledge"]
+  },
+  {
+    "id": "mentor-jordan-kim",
+    "kind": "person",
+    "name": "Jordan Kim",
+    "focus_area": "Public speaking",
+    "context": "Presentation coach for technologists and creatives who want to explain complex ideas without losing the room.",
+    "why_template": "Strong communication amplifies every other skill you're building — Jordan focuses on clarity under pressure.",
+    "focus_tags": ["speaking", "communication", "presentation", "leadership", "confidence", "storytelling"]
+  },
+  {
+    "id": "event-habit-reset",
+    "kind": "event",
+    "name": "Habit Reset Workshop",
+    "focus_area": "Behavior design",
+    "context": "Interactive workshop on designing one keystone habit with triggers, friction audits, and a two-week check-in.",
+    "why_template": "Directly supports the habits you've named — a structured reset, not a generic motivation talk.",
+    "focus_tags": ["habits", "behavior", "discipline", "systems", "productivity", "experience"]
+  },
+  {
+    "id": "mentor-elena-rostova",
+    "kind": "person",
+    "name": "Elena Rostova",
+    "focus_area": "Wildlife Photojournalism",
+    "context": "Award-winning photojournalist who spends half the year in national parks documenting threatened species and runs masterclasses on camera fieldcraft, tracking, and editorial storytelling.",
+    "why_template": "Your wildlife photography aspirations line up perfectly with Elena's expertise in national parks, camera gear, and conservation magazines.",
+    "focus_tags": ["photography", "wildlife", "conservation", "nature", "storytelling", "camera", "dslr", "lens", "photo"]
+  },
+  {
+    "id": "community-ecofocus",
+    "kind": "community",
+    "name": "EcoFocus Photo Guild",
+    "focus_area": "Conservation Storytelling",
+    "context": "A tight-knit community of photographers combining imagery with environmental advocacy. Weekly critiques of photo-essays, sequencing advice, and pitch workshops for environmental journals.",
+    "why_template": "Matches your goal of working with conservation organizations and publishing in nature magazines through active peer feedback on your photo series.",
+    "focus_tags": ["photography", "community", "conservation", "critique", "wildlife", "photo"]
+  },
+  {
+    "id": "event-wildlife-sprint",
+    "kind": "event",
+    "name": "Weekend Wildlife Shoot Challenge",
+    "focus_area": "Field Execution",
+    "context": "A 48-hour challenge: capture a photo story of local urban wildlife, edit it into a cohesive photo series, and receive feedback on composition and lens selection from a resident conservation photographer.",
+    "why_template": "Supports your habit of weekend shoots and editing one photo series per week with direct, expert critique.",
+    "focus_tags": ["photography", "wildlife", "workshop", "habits", "experience", "photo"]
+  }
+]
