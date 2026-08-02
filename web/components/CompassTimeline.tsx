@@ -140,17 +140,17 @@ function TimelineEntry({
         aria-expanded={open}
       >
         <div className="flex items-center justify-between gap-3">
-          <p className="flex items-center gap-2 text-sm font-medium text-neutral-900">
+          <p className="flex items-center gap-2 text-[15px] font-semibold text-neutral-900">
             {entry.note}
             <ChevronDown
               size={14}
               className={cn("text-neutral-500 transition-transform duration-200", open && "rotate-180")}
             />
           </p>
-          <span className="mono-label shrink-0 text-[11px] text-neutral-500">{formatDate(entry.date)}</span>
+          <span className="shrink-0 text-xs font-semibold text-neutral-600">{formatDate(entry.date)}</span>
         </div>
         {!open && changes ? (
-          <p className="mt-1.5 line-clamp-2 text-xs text-neutral-500">
+          <p className="mt-1.5 line-clamp-2 text-xs font-medium text-neutral-600">
             {changes.who_now
               ? "Identity shifted"
               : changes.aspirations
@@ -164,18 +164,18 @@ function TimelineEntry({
       {open ? (
         <div className="mt-2 rounded-xl border border-neutral-200 bg-neutral-50/80 px-4 py-3.5">
           {isOnboarding ? (
-            <p className="mono-label mb-3 flex items-center gap-1.5 text-[11px] text-amber-700 font-semibold">
-              <Sparkles size={12} strokeWidth={2} />
+            <p className="mb-3 flex items-center gap-1.5 text-xs text-amber-800 font-semibold">
+              <Sparkles size={13} strokeWidth={2} />
               Compass set — starting point
             </p>
           ) : null}
           {changes ? (
             <DeltaBlock changes={changes} />
           ) : (
-            <div className="space-y-3 text-xs text-neutral-600">
+            <div className="space-y-3 text-sm text-neutral-800">
               <div>
                 <p className="mono-label mb-1 text-neutral-900 font-semibold">Who I am now</p>
-                <div className="rounded-lg border border-neutral-200 bg-white p-3 font-sans text-neutral-900">
+                <div className="rounded-lg border border-neutral-200 bg-white p-3 text-sm leading-[1.5] text-neutral-900 font-medium">
                   {entry.snapshot.who_now || <i>(unwritten)</i>}
                 </div>
               </div>

@@ -68,10 +68,10 @@ html { color-scheme: light; }
 
 body {
   background-color: var(--color-paper);
-  color: #404040;
+  color: #262626;
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -99,10 +99,10 @@ body {
 
 .mono-label {
   font-family: var(--font-sans);
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  font-size: 13px;
+  letter-spacing: 0.01em;
   font-weight: 500;
-  color: #737373;
+  color: #525252;
 }
 
 .display {

@@ -36,7 +36,7 @@ export function FeedCard({ item }: { item: FeedItem }) {
 
   return (
     <HardCard as="article" className="settle p-6">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-100 pb-3 text-xs text-neutral-500 font-normal">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-100 pb-3 text-xs text-neutral-600 font-medium">
         <TypeBadge type={item.media_type} />
         <span>
           {item.sources.join(" · ")}
@@ -54,7 +54,7 @@ export function FeedCard({ item }: { item: FeedItem }) {
             className="mt-1 shrink-0 text-neutral-400 group-hover:text-blue-600 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
           />
         </div>
-        <p className="mt-2.5 line-clamp-3 text-sm leading-[1.45] text-neutral-600 font-normal">{item.summary}</p>
+        <p className="mt-2.5 line-clamp-3 text-[15px] leading-[1.5] text-neutral-700 font-normal">{item.summary}</p>
       </Link>
 
       {/* Collapsed rationale footnote */}
@@ -63,16 +63,16 @@ export function FeedCard({ item }: { item: FeedItem }) {
         aria-expanded={whyOpen}
         className="mt-4 flex w-full items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2 text-left transition-all hover:bg-neutral-100"
       >
-        <Sparkles size={13} className="shrink-0 text-neutral-700" strokeWidth={1.8} />
-        <span className="flex-1 text-xs text-neutral-800 font-medium">
+        <Sparkles size={14} className="shrink-0 text-neutral-700" strokeWidth={2} />
+        <span className="flex-1 text-xs text-neutral-900 font-semibold">
           Why this pick {whyOpen ? "▴" : "▾"}
         </span>
-        <span className="text-[11px] text-neutral-500 font-normal">
+        <span className="text-xs text-neutral-500 font-medium">
           #{item.id.replace("c", "")} · {score?.mean_composed?.toFixed(2)}
         </span>
       </button>
       {whyOpen ? (
-        <p className="mt-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-xs text-neutral-600 leading-[1.45]">
+        <p className="mt-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-xs text-neutral-700 leading-[1.5]">
           {item.rationale}
         </p>
       ) : null}
@@ -83,7 +83,7 @@ export function FeedCard({ item }: { item: FeedItem }) {
           onClick={() => run("saved")}
           disabled={action.isPending || state === "saved"}
           className={cn(
-            "btn btn-primary px-3 py-2 text-xs font-medium",
+            "btn btn-primary px-3.5 py-2 text-xs font-semibold",
             state === "saved" && "opacity-60",
           )}
         >
@@ -92,21 +92,21 @@ export function FeedCard({ item }: { item: FeedItem }) {
         <button
           onClick={() => run("done")}
           disabled={action.isPending || state === "done"}
-          className={cn("btn btn-outline px-3 py-2 text-xs font-medium", state === "done" && "opacity-60")}
+          className={cn("btn btn-outline px-3.5 py-2 text-xs font-semibold", state === "done" && "opacity-60")}
         >
           <Check size={13} /> Done
         </button>
         <button
           onClick={() => run("more_like_this")}
           disabled={action.isPending}
-          className="btn btn-outline px-3 py-2 text-xs font-medium"
+          className="btn btn-outline px-3.5 py-2 text-xs font-semibold"
         >
           <Sparkles size={13} /> More like this
         </button>
         <button
           onClick={() => run("dismissed")}
           disabled={action.isPending || hidden}
-          className={cn("btn btn-outline px-3 py-2 text-xs font-medium", hidden && "opacity-60")}
+          className={cn("btn btn-outline px-3.5 py-2 text-xs font-semibold", hidden && "opacity-60")}
         >
           <EyeOff size={13} /> Dismiss
         </button>
