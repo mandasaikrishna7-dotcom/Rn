@@ -29,8 +29,8 @@ export function AppSidebar() {
               <Compass size={18} className="text-white" strokeWidth={2} />
             </span>
             <div>
-              <p className="text-base font-semibold leading-tight text-neutral-900 tracking-[-0.02em]">NextSelf</p>
-              <p className="text-[12px] font-normal text-neutral-500 mt-0.5">Growth compass</p>
+              <p className="text-lg font-bold leading-tight text-neutral-900 tracking-[-0.02em]">NextSelf</p>
+              <p className="text-xs font-medium text-neutral-600 mt-0.5">Growth compass</p>
             </div>
           </Link>
 
