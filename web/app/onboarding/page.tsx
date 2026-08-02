@@ -388,11 +388,11 @@ function OnboardingHero() {
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontFamily: "var(--font-mono, monospace)",
-            fontSize: 10,
-            letterSpacing: "0.15em",
+            fontSize: 13,
+            letterSpacing: "0.12em",
             textTransform: "uppercase",
-            fontWeight: 600,
-            color: "#171717",
+            fontWeight: 700,
+            color: "#111111",
             marginBottom: "1.25rem",
             display: "block",
           }}
