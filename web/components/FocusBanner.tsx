@@ -3,9 +3,7 @@
 import { useBootstrap, useDigestInfo } from "@/hooks/useApi";
 
 /**
- * The comic focus banner — the one signature mesh element on every page.
- * Anchors the top: sits at y=0, content starts immediately below with a
- * 32px gap. No hero, no dead zone.
+ * Editorial top context banner — sticky top header on every page.
  */
 export function FocusBanner() {
   const { data } = useBootstrap();
@@ -19,27 +17,27 @@ export function FocusBanner() {
     .join("");
 
   return (
-    <header className="bg-paper border-b border-[#E8E3DA] sticky top-0 z-20">
+    <header className="sticky top-0 z-20 border-b border-neutral-200/80 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 md:px-8">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="milestone-diamond shrink-0 !bg-cobalt" aria-hidden />
-          <p className="truncate text-sm font-semibold text-ink">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-neutral-900" aria-hidden />
+          <p className="truncate text-sm font-normal text-neutral-900">
             {focus ? (
               <>
-                Focused on <span className="font-display normal-case italic font-medium">&ldquo;{focus}&rdquo;</span> this week
+                Focused on <span className="font-semibold text-neutral-900">&ldquo;{focus}&rdquo;</span> this week
               </>
             ) : (
-              <>Setting your compass — picks reflect the weekly digest</>
+              <>Weekly digest selection active</>
             )}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-3">
           {digest?.digest_date ? (
-            <span className="mono-label hidden text-muted/80 sm:inline">Digest · {digest.digest_date}</span>
+            <span className="text-xs text-neutral-500 font-normal hidden sm:inline">Digest {digest.digest_date}</span>
           ) : null}
           <span
             title={data?.profile?.who_now || "You"}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#E8E3DA] bg-cobalt font-display text-[11px] text-white font-medium shadow-sm"
+            className="flex h-7 w-7 items-center justify-center rounded-full border border-neutral-200 bg-neutral-100 text-xs font-semibold text-neutral-900"
           >
             {initials || "·"}
           </span>

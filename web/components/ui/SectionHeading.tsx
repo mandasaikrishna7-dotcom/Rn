@@ -14,9 +14,9 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn("mb-10", className)}>
-      <h1 className="serif-heading text-3xl leading-snug tracking-tight text-ink md:text-4xl font-medium">{children}</h1>
-      {sub ? <p className="mt-3 text-sm text-muted/85 font-normal leading-relaxed">{sub}</p> : null}
+    <div className={cn("mb-8", className)}>
+      <h1 className="text-[30px] font-bold text-neutral-900 tracking-[-0.02em] leading-[1.2]">{children}</h1>
+      {sub ? <p className="mt-2 text-sm text-neutral-600 max-w-[65ch] leading-[1.45]">{sub}</p> : null}
     </div>
   );
 }

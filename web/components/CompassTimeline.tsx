@@ -7,31 +7,66 @@ import { resolveEntryChanges } from "@/lib/journeyDelta";
 import { cn, formatDate } from "@/lib/utils";
 import type { JourneyChanges, JourneyEntry } from "@/lib/types";
 
+function WhoNowDelta({ before, after }: { before: string; after: string }) {
+  const b = before.trim();
+  const a = after.trim();
+
+  if (a.startsWith(b)) {
+    const added = a.slice(b.length).trim();
+    return (
+      <div className="rounded-xl border border-neutral-200 bg-white p-4 font-sans text-xs leading-relaxed text-neutral-900 shadow-xs">
+        <span>{b}</span>{" "}
+        <span className="inline-flex items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2 py-0.5 font-medium text-emerald-900 text-xs shadow-xs">
+          + {added}
+        </span>
+      </div>
+    );
+  }
+
+  if (b.startsWith(a)) {
+    const removed = b.slice(a.length).trim();
+    return (
+      <div className="rounded-xl border border-neutral-200 bg-white p-4 font-sans text-xs leading-relaxed text-neutral-900 shadow-xs">
+        <span>{a}</span>{" "}
+        <span className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2 py-0.5 text-red-700 text-xs line-through">
+          - {removed}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3.5 font-sans text-xs leading-relaxed text-neutral-600">
+        <span className="mono-label block mb-1.5 text-[10px] text-neutral-500 uppercase tracking-wider">Previous</span>
+        <span>{b || "(empty)"}</span>
+      </div>
+      <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-3.5 font-sans text-xs leading-relaxed text-emerald-950 font-medium">
+        <span className="mono-label block mb-1.5 text-[10px] text-emerald-700 uppercase tracking-wider">Updated</span>
+        <span>{a || "(empty)"}</span>
+      </div>
+    </div>
+  );
+}
+
 function DeltaBlock({ changes }: { changes: JourneyChanges }) {
   return (
-    <div className="space-y-4 text-xs leading-relaxed text-muted">
+    <div className="space-y-4 text-xs leading-relaxed text-neutral-600">
       {changes.who_now ? (
         <div>
-          <p className="mono-label mb-2 text-ink">Who I am now</p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <div className="border border-magenta/25 bg-magenta/5 p-3 font-sans text-muted/80 line-through shadow-[1px_1px_0_var(--color-magenta)]">
-              {changes.who_now.before || "(empty)"}
-            </div>
-            <div className="border border-orb-core/30 bg-orb-core/5 p-3 font-sans text-ink font-medium shadow-[1px_1px_0_var(--color-orb-core)]">
-              {changes.who_now.after || "(empty)"}
-            </div>
-          </div>
+          <p className="mono-label mb-2 text-neutral-900 font-semibold">Who I am now</p>
+          <WhoNowDelta before={changes.who_now.before} after={changes.who_now.after} />
         </div>
       ) : null}
 
       {changes.aspirations ? (
         <div>
-          <p className="mono-label mb-2 text-ink">Who I&rsquo;m becoming</p>
+          <p className="mono-label mb-2 text-neutral-900 font-semibold">Who I&rsquo;m becoming</p>
           <div className="flex flex-wrap gap-2">
             {changes.aspirations.added.map((item, idx) => (
               <span
                 key={`add-asp-${idx}`}
-                className="inline-flex items-center gap-1 border border-orb-core/30 bg-orb-core/5 px-2.5 py-1 font-sans text-xs text-orb-core shadow-[1px_1px_0_var(--color-orb-core)]"
+                className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-sans text-xs text-emerald-800 font-medium"
               >
                 + {item}
               </span>
@@ -39,7 +74,7 @@ function DeltaBlock({ changes }: { changes: JourneyChanges }) {
             {changes.aspirations.removed.map((item, idx) => (
               <span
                 key={`rem-asp-${idx}`}
-                className="inline-flex items-center gap-1 border border-magenta/25 bg-magenta/5 px-2.5 py-1 font-sans text-xs text-magenta/70 line-through shadow-[1px_1px_0_var(--color-magenta)]"
+                className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2.5 py-1 font-sans text-xs text-red-700 line-through"
               >
                 - {item}
               </span>
@@ -50,12 +85,12 @@ function DeltaBlock({ changes }: { changes: JourneyChanges }) {
 
       {changes.habits ? (
         <div>
-          <p className="mono-label mb-2 text-ink">Habits in motion</p>
+          <p className="mono-label mb-2 text-neutral-900 font-semibold">Habits in motion</p>
           <div className="flex flex-wrap gap-2">
             {changes.habits.added.map((item, idx) => (
               <span
                 key={`add-hab-${idx}`}
-                className="inline-flex items-center gap-1 border border-orb-core/30 bg-orb-core/5 px-2.5 py-1 font-sans text-xs text-orb-core shadow-[1px_1px_0_var(--color-orb-core)]"
+                className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-sans text-xs text-emerald-800 font-medium"
               >
                 + {item}
               </span>
@@ -63,7 +98,7 @@ function DeltaBlock({ changes }: { changes: JourneyChanges }) {
             {changes.habits.removed.map((item, idx) => (
               <span
                 key={`rem-hab-${idx}`}
-                className="inline-flex items-center gap-1 border border-magenta/25 bg-magenta/5 px-2.5 py-1 font-sans text-xs text-magenta/70 line-through shadow-[1px_1px_0_var(--color-magenta)]"
+                className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-2.5 py-1 font-sans text-xs text-red-700 line-through"
               >
                 - {item}
               </span>
@@ -94,28 +129,28 @@ function TimelineEntry({
     <li className={cn("relative settle", `stagger-${Math.min(index + 1, 4)}`)}>
       <span
         className={cn(
-          "milestone-diamond absolute -left-[34px] top-[14px] !w-3.5 !h-3.5 transition-all duration-150 hover:scale-125",
-          milestone ? "!bg-magenta shadow-[0_0_8px_var(--color-magenta)]" : "!bg-orb-core shadow-[0_0_8px_var(--color-orb-core)]",
+          "absolute -left-[31px] top-[18px] h-2.5 w-2.5 rounded-full transition-all duration-200",
+          milestone ? "bg-neutral-900 ring-4 ring-neutral-200" : "bg-neutral-300",
         )}
         aria-hidden
       />
       <button
         onClick={() => setOpen((o) => !o)}
-        className="block w-full border-2 border-ink bg-card px-4 py-3 text-left shadow-[2px_2px_0_#0a0a0f] transition-all hover:-translate-y-0.5 hover:shadow-[3px_3px_0_#0a0a0f] press"
+        className="block w-full rounded-xl border border-neutral-200 bg-white px-4 py-3.5 text-left transition-all hover:border-neutral-300 hover:bg-neutral-50 shadow-xs"
         aria-expanded={open}
       >
         <div className="flex items-center justify-between gap-3">
-          <p className="flex items-center gap-2 text-sm font-semibold text-ink">
+          <p className="flex items-center gap-2 text-sm font-medium text-neutral-900">
             {entry.note}
             <ChevronDown
               size={14}
-              className={cn("text-cobalt transition-transform", open && "rotate-180")}
+              className={cn("text-neutral-500 transition-transform duration-200", open && "rotate-180")}
             />
           </p>
-          <span className="mono-label shrink-0 !text-[10px] text-muted">{formatDate(entry.date)}</span>
+          <span className="mono-label shrink-0 text-[11px] text-neutral-500">{formatDate(entry.date)}</span>
         </div>
         {!open && changes ? (
-          <p className="mt-2 line-clamp-2 text-xs text-muted">
+          <p className="mt-1.5 line-clamp-2 text-xs text-neutral-500">
             {changes.who_now
               ? "Identity shifted"
               : changes.aspirations
@@ -127,31 +162,31 @@ function TimelineEntry({
         ) : null}
       </button>
       {open ? (
-        <div className="mt-2 border-2 border-ink bg-paper hard-card--mesh px-4 py-3">
+        <div className="mt-2 rounded-xl border border-neutral-200 bg-neutral-50/80 px-4 py-3.5">
           {isOnboarding ? (
-            <p className="mono-label mb-3 flex items-center gap-2 !text-[10px] text-magenta">
-              <Sparkles size={12} strokeWidth={2.4} />
-              Compass set — your starting point
+            <p className="mono-label mb-3 flex items-center gap-1.5 text-[11px] text-amber-700 font-semibold">
+              <Sparkles size={12} strokeWidth={2} />
+              Compass set — starting point
             </p>
           ) : null}
           {changes ? (
             <DeltaBlock changes={changes} />
           ) : (
-            <div className="space-y-3 text-xs text-muted">
+            <div className="space-y-3 text-xs text-neutral-600">
               <div>
-                <p className="mono-label mb-1 text-ink">Who I am now</p>
-                <div className="border border-ink/15 bg-card p-3 font-sans text-ink">
+                <p className="mono-label mb-1 text-neutral-900 font-semibold">Who I am now</p>
+                <div className="rounded-lg border border-neutral-200 bg-white p-3 font-sans text-neutral-900">
                   {entry.snapshot.who_now || <i>(unwritten)</i>}
                 </div>
               </div>
               {entry.snapshot.aspirations.length ? (
                 <div>
-                  <p className="mono-label mb-1 text-ink">Who I&rsquo;m becoming</p>
+                  <p className="mono-label mb-1 text-neutral-900 font-semibold">Who I&rsquo;m becoming</p>
                   <div className="flex flex-wrap gap-2">
                     {entry.snapshot.aspirations.map((a, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center border border-ink/15 bg-card px-2.5 py-1 font-sans text-xs text-ink"
+                        className="inline-flex items-center rounded-md border border-neutral-200 bg-white px-2.5 py-1 font-sans text-xs text-neutral-800 font-medium"
                       >
                         {a}
                       </span>
@@ -161,12 +196,12 @@ function TimelineEntry({
               ) : null}
               {entry.snapshot.habits.length ? (
                 <div>
-                  <p className="mono-label mb-1 text-ink">Habits in motion</p>
+                  <p className="mono-label mb-1 text-neutral-900 font-semibold">Habits in motion</p>
                   <div className="flex flex-wrap gap-2">
                     {entry.snapshot.habits.map((h, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center border border-ink/15 bg-card px-2.5 py-1 font-sans text-xs text-ink"
+                        className="inline-flex items-center rounded-md border border-neutral-200 bg-white px-2.5 py-1 font-sans text-xs text-neutral-800 font-medium"
                       >
                         {h}
                       </span>
@@ -185,14 +220,14 @@ function TimelineEntry({
 export function CompassTimeline({ journey }: { journey: JourneyEntry[] }) {
   if (journey.length === 0) {
     return (
-      <HardCard mesh className="p-5 text-sm italic text-muted">
+      <HardCard className="p-5 text-sm italic text-neutral-500">
         No revisions yet. The first entry will appear here the moment you confirm your onboarding.
       </HardCard>
     );
   }
 
   return (
-    <ol className="relative ml-2 space-y-5 border-l-[3px] border-ink pl-6">
+    <ol className="relative ml-2 space-y-4 border-l border-neutral-200 pl-6">
       {journey.map((entry, idx) => (
         <TimelineEntry
           key={`${entry.date}-${idx}`}

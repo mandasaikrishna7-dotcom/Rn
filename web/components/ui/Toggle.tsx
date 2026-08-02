@@ -1,19 +1,21 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Neo-brutalist switch: square track, 2px ink border, cobalt when on,
- * ink when off, hard-sliding white knob.
+ * Minimalist toggle switch with smooth slide knob.
+ * ON state uses vibrant blue for high contrast visibility.
  */
 export function Toggle({
   checked,
   onChange,
   label,
   disabled,
+  className,
 }: {
   checked: boolean;
   onChange: (next: boolean) => void;
   label?: string;
   disabled?: boolean;
+  className?: string;
 }) {
   return (
     <button
@@ -24,12 +26,19 @@ export function Toggle({
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={cn(
-        "switch",
-        checked ? "switch-on" : "switch-off",
+        "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        checked ? "bg-blue-600" : "bg-neutral-300 dark:bg-neutral-700",
         disabled && "cursor-not-allowed opacity-50",
+        className,
       )}
     >
-      <span className="switch-knob" />
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out",
+          checked ? "translate-x-5" : "translate-x-0",
+        )}
+      />
     </button>
   );
 }

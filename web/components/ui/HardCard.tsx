@@ -1,11 +1,9 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Neo-brutalist card: white surface, 2px ink border, hard flat shadow.
+ * Editorial card primitive: soft rounded surface, hairline border, ambient glow.
  * `dashed` marks placeholder content (rule: dashed = not real yet).
- * `mesh` adds the halftone-cyan dot fill (empty states / placeholders).
- * `grain` adds the paper texture — the one skeuomorphic remnant, which
- * Reduced-texture mode toggles off.
+ * `mesh` adds subtle halftone dot background.
  */
 export function HardCard({
   children,

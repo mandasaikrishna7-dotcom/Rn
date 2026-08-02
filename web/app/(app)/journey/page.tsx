@@ -18,12 +18,12 @@ export default function JourneyPage() {
   const [ack, setAck] = useState<string | null>(null);
 
   if (isLoading || !data) {
-    return <div className="hard-card h-72 animate-pulse !shadow-none" />;
+    return <div className="h-72 animate-pulse rounded-2xl border border-white/10 bg-card" />;
   }
   if (error) {
     return (
       <HardCard className="p-6 text-center">
-        <p className="font-semibold text-ink">Could not load journey: {error.message}</p>
+        <p className="font-medium text-white">Could not load journey: {error.message}</p>
         <p className="mt-2 text-sm text-muted">Check that the backend is running on port 8000.</p>
       </HardCard>
     );
@@ -56,14 +56,14 @@ export default function JourneyPage() {
 
   return (
     <div>
-      <SectionHeading sub="Your identity is not a static bio — it's a course. This page is where it changes.">
-        Journey &amp; Identity
+      <SectionHeading sub="Track how your goals, habits, and profile evolve over time.">
+        Journey and identity
       </SectionHeading>
 
-      {/* Seed profile card — hard edge, halftone fills where fields are empty */}
+      {/* Seed profile card — editorial surface */}
       <HardCard className="p-6 sm:p-8">
         <div className="flex items-start justify-between gap-4">
-          <p className="mono-label text-ink">Seed profile</p>
+          <p className="mono-label text-neutral-500">Current profile</p>
           {!editing ? (
             <OutlineButton size="sm" onClick={startEdit}>
               <Pencil size={13} /> Edit
@@ -72,37 +72,37 @@ export default function JourneyPage() {
         </div>
 
         {!editing ? (
-          <div className="mt-5 space-y-4 text-sm">
+          <div className="mt-5 space-y-5 text-sm">
             <div>
-              <p className="mono-label text-muted">Who I am now</p>
-              <p className="mt-1 leading-relaxed text-ink">
-                {profile.who_now || <span className="hard-card--mesh block border-2 border-dashed border-ink px-3 py-2 italic text-muted">Not written yet</span>}
+              <p className="mono-label text-neutral-500">Who I am now</p>
+              <p className="mt-1.5 leading-[1.45] text-neutral-900 font-normal">
+                {profile.who_now || <span className="block rounded-xl border border-neutral-200 bg-neutral-50 p-3 italic text-neutral-500 text-xs font-normal">Not written yet</span>}
               </p>
             </div>
             <div>
-              <p className="mono-label text-muted">Who I&rsquo;m becoming</p>
+              <p className="mono-label text-neutral-500">Who I&rsquo;m becoming</p>
               {profile.aspirations.length ? (
-                <ul className="mt-1 list-inside list-disc space-y-0.5">
+                <ul className="mt-1.5 list-inside list-disc space-y-1 text-neutral-900 font-normal">
                   {profile.aspirations.map((a) => (
                     <li key={a}>{a}</li>
                   ))}
                 </ul>
               ) : (
-                <p className="hard-card--mesh mt-1 border-2 border-dashed border-ink px-3 py-2 italic text-muted">
+                <p className="mt-1.5 rounded-xl border border-neutral-200 bg-neutral-50 p-3 italic text-neutral-500 text-xs">
                   No aspirations listed
                 </p>
               )}
             </div>
             <div>
-              <p className="mono-label text-muted">Habits in motion</p>
+              <p className="mono-label text-neutral-500">Habits in motion</p>
               {profile.habits.length ? (
-                <ul className="mt-1 list-inside list-disc space-y-0.5">
+                <ul className="mt-1.5 list-inside list-disc space-y-1 text-neutral-900 font-normal">
                   {profile.habits.map((h) => (
                     <li key={h}>{h}</li>
                   ))}
                 </ul>
               ) : (
-                <p className="hard-card--mesh mt-1 border-2 border-dashed border-ink px-3 py-2 italic text-muted">
+                <p className="mt-1.5 rounded-xl border border-neutral-200 bg-neutral-50 p-3 italic text-neutral-500 text-xs">
                   No habits listed
                 </p>
               )}
@@ -111,7 +111,7 @@ export default function JourneyPage() {
         ) : (
           <div className="mt-5 space-y-5">
             <label className="block">
-              <span className="mono-label text-muted">Who I am now</span>
+              <span className="mono-label text-neutral-500">Who I am now</span>
               <textarea
                 value={profile.who_now}
                 onChange={(e) => setDraft({ ...profile, who_now: e.target.value })}
@@ -120,7 +120,7 @@ export default function JourneyPage() {
               />
             </label>
             <div>
-              <span className="mono-label text-muted">Who I&rsquo;m becoming</span>
+              <span className="mono-label text-neutral-500">Who I&rsquo;m becoming</span>
               <div className="mt-1.5">
                 <StringListEditor
                   values={profile.aspirations}
@@ -130,7 +130,7 @@ export default function JourneyPage() {
               </div>
             </div>
             <div>
-              <span className="mono-label text-muted">Habits in motion</span>
+              <span className="mono-label text-neutral-500">Habits in motion</span>
               <div className="mt-1.5">
                 <StringListEditor
                   values={profile.habits}
@@ -151,14 +151,14 @@ export default function JourneyPage() {
         )}
 
         {ack ? (
-          <p className="mt-4 border-2 border-cobalt bg-cobalt/5 px-3 py-2 text-xs font-medium text-cobalt-dark">{ack}</p>
+          <p className="mt-4 rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-xs text-neutral-800">{ack}</p>
         ) : null}
       </HardCard>
 
       {/* Timeline of how the profile has evolved */}
       <section className="mt-12">
-        <SectionHeading sub="Every confirmation becomes an entry — see how identity, goals, and habits have shifted.">
-          How Your Compass Has Turned
+        <SectionHeading sub="Every edit creates an entry showing your progression.">
+          How your compass has turned
         </SectionHeading>
         <CompassTimeline journey={journeyData.journey} />
       </section>

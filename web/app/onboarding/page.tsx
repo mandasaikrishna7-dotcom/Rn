@@ -75,7 +75,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main style={{ backgroundColor: "var(--color-void)", minHeight: "100vh" }}>
+    <main style={{ backgroundColor: "#FAF9F6", minHeight: "100vh" }}>
       {/* ─── Hero: Spline orb full-bleed background ─────────────── */}
       <OnboardingHero />
 
@@ -83,10 +83,12 @@ export default function OnboardingPage() {
       <section
         className="form-section-top container-narrow relative z-10 pb-24 pt-10"
         style={{
-          backgroundColor: "var(--color-surface-0)",
+          backgroundColor: "#FFFFFF",
           marginTop: "-80px",
+          borderRadius: "28px",
           boxShadow:
-            "0 -24px 64px rgba(0, 0, 0, 0.02), 0 -1px 0 var(--color-surface-3)",
+            "0 20px 60px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04)",
+          border: "1px solid rgba(0, 0, 0, 0.06)",
         }}
       >
         {/* Header */}
@@ -99,42 +101,42 @@ export default function OnboardingPage() {
               justifyContent: "center",
               width: 48,
               height: 48,
-              borderRadius: "50%",
-              background: "var(--color-cobalt)",
-              boxShadow: "0 4px 12px rgba(42,82,245,0.15)",
+              borderRadius: 14,
+              background: "#171717",
+              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.12)",
             }}
           >
             <Compass size={22} color="#FFFFFF" strokeWidth={2} />
           </div>
 
           <div>
-            <h1 className="serif-heading text-4xl text-ink font-medium">
+            <h1 className="serif-heading text-4xl" style={{ color: "#111111" }}>
               Set your compass
             </h1>
             <p
-              className="mono-label mt-3 max-w-md text-muted"
-              style={{ lineHeight: 1.75, textTransform: "none", letterSpacing: 0 }}
+              className="mono-label mt-3 max-w-md"
+              style={{ color: "#525252", lineHeight: 1.75, textTransform: "none", letterSpacing: 0 }}
             >
               Four small questions. NextSelf uses this as your seed profile — you can edit any of
               it before beginning, and anytime after.
             </p>
           </div>
 
-          <StepDots steps={STEP_COUNT} current={step} />
+          <StepDots steps={STEP_COUNT} current={step} light />
         </div>
 
         {/* Step card */}
-        <div className="glass-card p-7">
+        <div className="rounded-2xl border border-neutral-200/80 bg-neutral-50/50 p-7 sm:p-9 shadow-xs">
           <div key={step} className="settle">
-            <p className="mono-label text-cobalt">
+            <p className="mono-label text-xs font-semibold text-neutral-900">
               Step {step + 1} / {STEP_COUNT}
             </p>
 
-            <h2 className="mt-2 font-serif text-2xl font-medium text-ink">
+            <h2 className="mt-2 font-serif text-2xl font-normal text-neutral-900">
               {STEP_HEADINGS[step].title}
             </h2>
 
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-neutral-600">
               {STEP_HEADINGS[step].hint}
             </p>
 
@@ -145,7 +147,7 @@ export default function OnboardingPage() {
                   onChange={(e) => setWhoNow(e.target.value)}
                   rows={4}
                   placeholder="e.g. A product engineer who reads mostly for work, curious about AI systems, often skips things that feel like homework…"
-                  className="hard-input resize-none"
+                  className="w-full rounded-xl border border-neutral-300 bg-white p-4 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 transition-all resize-none"
                   autoFocus
                 />
               )}
@@ -154,6 +156,7 @@ export default function OnboardingPage() {
                   values={aspirations}
                   onChange={setAspirations}
                   placeholder="e.g. Lead technical decisions with confidence"
+                  light
                 />
               )}
               {step === 2 && (
@@ -161,9 +164,10 @@ export default function OnboardingPage() {
                   values={habits}
                   onChange={setHabits}
                   placeholder="e.g. Morning reading, weekly long walk"
+                  light
                 />
               )}
-              {step === 3 && <MediaPrefsPicker prefs={prefs} onChange={setPrefs} />}
+              {step === 3 && <MediaPrefsPicker prefs={prefs} onChange={setPrefs} light />}
             </div>
           </div>
 
@@ -171,9 +175,9 @@ export default function OnboardingPage() {
             <div
               className="mt-4 rounded-lg p-3 text-sm"
               style={{
-                background: "rgba(248,113,113,0.08)",
-                border: "1px solid rgba(248,113,113,0.25)",
-                color: "#F87171",
+                background: "rgba(239,68,68,0.08)",
+                border: "1px solid rgba(239,68,68,0.25)",
+                color: "#DC2626",
               }}
             >
               ⚠ {error}
@@ -184,6 +188,7 @@ export default function OnboardingPage() {
             <OutlineButton
               onClick={() => setStep((s) => Math.max(0, s - 1))}
               disabled={step === 0}
+              variant="light"
             >
               <ArrowLeft size={15} /> Back
             </OutlineButton>
@@ -192,11 +197,12 @@ export default function OnboardingPage() {
               <PrimaryButton
                 onClick={() => canProceed && setStep((s) => s + 1)}
                 disabled={!canProceed}
+                variant="light"
               >
                 Continue <ArrowRight size={15} />
               </PrimaryButton>
             ) : (
-              <PrimaryButton onClick={submit} disabled={onboard.isPending}>
+              <PrimaryButton onClick={submit} disabled={onboard.isPending} variant="light">
                 {onboard.isPending ? "Setting…" : "Review your compass"}{" "}
                 <ArrowRight size={15} />
               </PrimaryButton>
@@ -235,17 +241,11 @@ function OnboardingHero() {
   const textY       = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "38%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.75], [1, reduce ? 1 : 0]);
 
-  /* ── Scroll-wheel passthrough ────────────────────────────────────
-     The iframe captures wheel events so the page can't scroll via
-     the hero area. We listen on the hero wrapper and forward any
-     wheel delta to the window so the page scrolls normally even
-     while the cursor is over the interactive Spline scene.          */
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
     function onWheel(e: WheelEvent) {
-      /* Only intercept if the event came from within the iframe */
       window.scrollBy({ top: e.deltaY, left: 0 });
     }
 
@@ -259,15 +259,11 @@ function OnboardingHero() {
       className="hero-clip sticky top-0 z-0"
       style={{
         minHeight: "100vh",
-        backgroundColor: "#05080F",
+        backgroundColor: "#FAF9F6",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* ── Spline iframe — full-bleed, interactive ───────────────
-          pointer-events: auto  → orb reacts to mouse hover/move
-          scale(1.12)           → pushes Spline watermark off-screen
-          The overflow:hidden on the section clips any overflow.      */}
       <iframe
         ref={iframeRef}
         src={SPLINE_URL}
@@ -281,42 +277,41 @@ function OnboardingHero() {
           height: "112%",
           border: "none",
           zIndex: 0,
-          /* INTERACTIVE — pointer-events left as default (auto) */
           display: "block",
         }}
       />
 
-      {/* ── Corner vignette — darkens edges, orb glow stays central */}
+      {/* ── Crisp top-to-bottom white gradient overlay ── */}
       <div
         aria-hidden
         style={{
           position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
           background:
-            "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(5,8,15,0.45) 70%, rgba(5,8,15,0.85) 100%)",
+            "linear-gradient(to bottom, #FAF9F6 0%, rgba(250,249,246,0.85) 30%, rgba(250,249,246,0.4) 60%, rgba(255,255,255,0.95) 90%, #FFFFFF 100%)",
         }}
       />
 
-      {/* ── Text scrim — dark area behind copy for contrast ─────── */}
+      {/* ── Text scrim for maximum contrast behind copy ── */}
       <div
         aria-hidden
         style={{
           position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
           background:
-            "radial-gradient(ellipse 65% 55% at 50% 50%, rgba(5,8,15,0.60) 0%, transparent 72%)",
+            "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(255,255,255,0.95) 0%, rgba(250,249,246,0.8) 65%, transparent 100%)",
         }}
       />
 
-      {/* ── Bottom gradient — smooth hero→form section transition ── */}
+      {/* ── Bottom gradient — smooth transition into form ── */}
       <div
         aria-hidden
         style={{
           position: "absolute", bottom: 0, left: 0, right: 0,
           height: "180px", zIndex: 3, pointerEvents: "none",
-          background: "linear-gradient(to bottom, transparent, rgba(8,13,24,0.95) 90%, #080D18)",
+          background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.9) 80%, #FFFFFF)",
         }}
       />
 
-      {/* ── NextSelf brand badge — bottom-right, covers watermark ── */}
+      {/* ── NextSelf brand badge — bottom-right ── */}
       <div
         aria-label="NextSelf"
         style={{
@@ -329,19 +324,19 @@ function OnboardingHero() {
           alignItems: "center",
           gap: "0.5rem",
           padding: "0.4rem 0.9rem",
-          background: "rgba(5, 8, 15, 0.80)",
-          border: "1px solid rgba(0, 212, 255, 0.28)",
+          background: "rgba(255, 255, 255, 0.90)",
+          border: "1px solid rgba(0, 0, 0, 0.10)",
           borderRadius: 8,
           backdropFilter: "blur(14px)",
-          boxShadow: "0 2px 16px rgba(0,0,0,0.5), 0 0 12px rgba(0,212,255,0.1)",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
         }}
       >
         <span
           style={{
             display: "flex", alignItems: "center", justifyContent: "center",
             width: 22, height: 22, borderRadius: 5,
-            background: "linear-gradient(135deg, #00B5CC, #00D4FF)",
-            fontSize: 11, fontWeight: 900, color: "#05080F",
+            background: "#171717",
+            fontSize: 11, fontWeight: 900, color: "#FFFFFF",
             flexShrink: 0,
           }}
         >
@@ -353,15 +348,15 @@ function OnboardingHero() {
             fontSize: 10,
             letterSpacing: "0.10em",
             textTransform: "uppercase",
-            color: "#94A3B8",
-            fontWeight: 500,
+            color: "#525252",
+            fontWeight: 600,
           }}
         >
           nextself
         </span>
       </div>
 
-      {/* ── Top-left brand badge ─────────────────────────────────── */}
+      {/* ── Top-left brand badge ── */}
       <div
         aria-label="NextSelf"
         className="brand-badge"
@@ -374,8 +369,8 @@ function OnboardingHero() {
           style={{
             display: "flex", alignItems: "center", justifyContent: "center",
             width: 22, height: 22, borderRadius: 5,
-            background: "linear-gradient(135deg, #00B5CC, #00D4FF)",
-            fontSize: 11, fontWeight: 900, color: "#05080F",
+            background: "#171717",
+            fontSize: 11, fontWeight: 900, color: "#FFFFFF",
           }}
         >
           N
@@ -384,7 +379,7 @@ function OnboardingHero() {
           style={{
             fontFamily: "var(--font-mono, monospace)",
             fontSize: 10, letterSpacing: "0.10em",
-            textTransform: "uppercase", color: "#94A3B8", fontWeight: 500,
+            textTransform: "uppercase", color: "#525252", fontWeight: 600,
           }}
         >
           nextself
@@ -398,7 +393,7 @@ function OnboardingHero() {
           opacity: textOpacity,
           position: "relative",
           zIndex: 10,
-          pointerEvents: "none", /* text never blocks orb interaction */
+          pointerEvents: "none",
         }}
         className="flex min-h-screen flex-col items-center justify-center px-6 text-center"
       >
@@ -411,8 +406,8 @@ function OnboardingHero() {
             fontSize: 10,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            fontWeight: 500,
-            color: "#00D4FF",
+            fontWeight: 600,
+            color: "#171717",
             marginBottom: "1.25rem",
             display: "block",
           }}
@@ -427,9 +422,8 @@ function OnboardingHero() {
           className="serif-heading"
           style={{
             fontSize: "clamp(2.8rem, 6.5vw, 5rem)",
-            color: "#F0F8FF",
+            color: "#111111",
             maxWidth: 760,
-            textShadow: "0 2px 40px rgba(0,0,0,0.7)",
             lineHeight: 1.12,
           }}
         >
@@ -444,7 +438,7 @@ function OnboardingHero() {
             marginTop: "1.25rem",
             fontSize: "1rem",
             lineHeight: 1.75,
-            color: "#94A3B8",
+            color: "#525252",
             maxWidth: 400,
           }}
         >
@@ -459,7 +453,7 @@ function OnboardingHero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
           className="scroll-cue"
-          style={{ marginTop: "3.5rem", color: "#00D4FF" }}
+          style={{ marginTop: "3.5rem", color: "#171717" }}
         >
           <ChevronDown size={26} strokeWidth={1.8} />
         </motion.div>
@@ -489,13 +483,12 @@ function SummaryCard({
 }) {
   return (
     <div className="settle mt-6">
-      <div className="glass-card p-7">
-        <p className="mono-label" style={{ color: "#00B5CC" }}>
+      <div className="rounded-2xl border border-neutral-200/90 bg-white p-7 sm:p-9 shadow-md">
+        <p className="mono-label text-xs font-semibold text-neutral-900">
           First page of your journal
         </p>
         <p
-          className="mt-2 font-serif text-xl"
-          style={{ color: "#F0F8FF", fontStyle: "italic" }}
+          className="mt-2 font-serif text-xl font-normal text-neutral-900 italic"
         >
           &ldquo;The self I am, the self I&rsquo;m becoming&rdquo;
         </p>
@@ -508,25 +501,24 @@ function SummaryCard({
           ].map(({ label, content, step }) => (
             <div key={label}>
               <dt
-                className="mono-label flex items-center justify-between"
-                style={{ color: "#3B4D66" }}
+                className="mono-label flex items-center justify-between text-neutral-500"
               >
                 {label}
                 <EditJump onClick={() => onEditStep(step)} />
               </dt>
-              <dd className="mt-1.5" style={{ color: "#CBD5E1" }}>
+              <dd className="mt-1.5 text-neutral-900 font-medium">
                 {Array.isArray(content) ? (
                   content.length ? (
                     <ul className="list-inside list-disc space-y-0.5">
                       {content.map((v) => <li key={v}>{v}</li>)}
                     </ul>
                   ) : (
-                    <span style={{ color: "#3B4D66", fontStyle: "italic" }}>None listed</span>
+                    <span className="italic text-neutral-400 font-normal">None listed</span>
                   )
                 ) : content ? (
                   content
                 ) : (
-                  <span style={{ color: "#3B4D66", fontStyle: "italic" }}>Not written yet</span>
+                  <span className="italic text-neutral-400 font-normal">Not written yet</span>
                 )}
               </dd>
             </div>
@@ -537,9 +529,9 @@ function SummaryCard({
           <div
             className="mt-4 rounded-lg p-3 text-sm"
             style={{
-              background: "rgba(248,113,113,0.08)",
-              border: "1px solid rgba(248,113,113,0.25)",
-              color: "#F87171",
+              background: "rgba(239,68,68,0.08)",
+              border: "1px solid rgba(239,68,68,0.25)",
+              color: "#DC2626",
             }}
           >
             ⚠ {error}
@@ -562,19 +554,7 @@ function EditJump({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      style={{
-        fontFamily: "var(--font-mono, monospace)",
-        fontSize: 10,
-        letterSpacing: "0.10em",
-        textTransform: "uppercase",
-        border: "1px solid rgba(0,212,255,0.22)",
-        borderRadius: 6,
-        padding: "3px 10px",
-        color: "#00B5CC",
-        background: "rgba(0,212,255,0.06)",
-        cursor: "pointer",
-        transition: "all 0.15s",
-      }}
+      className="rounded-full border border-neutral-200 bg-neutral-100 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-neutral-800 transition-all hover:bg-neutral-200"
     >
       Edit
     </button>
