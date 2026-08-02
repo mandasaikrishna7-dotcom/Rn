@@ -119,12 +119,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </main>
-
-      {/* Cat companion */}
-      <CatCompanion 
-        messages={messages}
-        onDismiss={dismissMessage}
-      />
     </div>
   );
 }

@@ -178,16 +178,16 @@ const SpeechBubble: React.FC<{
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8, y: 10 }}
       transition={{ type: "spring", stiffness: 500, damping: 30 }}
-      className={`comic-bubble ${getBubbleStyle()} comic-entrance`}
+      className={`rounded-2xl border border-neutral-200 bg-white p-4 shadow-xl text-neutral-900 ${getBubbleStyle()}`}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-medium text-ink leading-relaxed sans-body">
+        <p className="text-sm font-medium text-neutral-900 leading-relaxed">
           {message.text}
         </p>
         {message.dismissible && (
           <button
             onClick={onDismiss}
-            className="flex-shrink-0 p-1 rounded hover:bg-black/10 transition-colors"
+            className="flex-shrink-0 p-1 rounded text-neutral-400 hover:text-neutral-900 transition-colors"
             aria-label="Dismiss message"
           >
             <X size={14} />
@@ -307,22 +307,22 @@ export const CatCompanion: React.FC<CatCompanionProps> = ({
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="mb-4 comic-bubble"
+            className="mb-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-xl"
           >
-            <p className="text-sm font-medium text-ink mb-3 sans-body">
+            <p className="text-sm font-semibold text-neutral-900 mb-3">
               What would you like to know?
             </p>
             <div className="space-y-2">
               <button
                 onClick={handleHelpResponse}
-                className="btn-base btn-secondary w-full text-xs py-2"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-900 hover:bg-neutral-100 transition-all"
               >
                 <HelpCircle size={14} />
                 What should I do next?
               </button>
               <button
                 onClick={() => setShowHelp(false)}
-                className="btn-base btn-secondary w-full text-xs py-2"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 transition-all"
               >
                 <X size={14} />
                 Never mind
