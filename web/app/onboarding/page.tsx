@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, ChevronDown, Compass } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
@@ -357,34 +358,18 @@ function OnboardingHero() {
       </div>
 
       {/* ── Top-left brand badge ── */}
-      <div
-        aria-label="NextSelf"
-        className="brand-badge"
-        style={{
-          position: "absolute", top: 20, left: 20, zIndex: 10,
-          pointerEvents: "none",
-        }}
+      <Link
+        href="/"
+        aria-label="NextSelf Home"
+        className="absolute top-5 left-5 z-30 flex items-center gap-2.5 rounded-xl border border-neutral-300/80 bg-white/90 px-3.5 py-2 shadow-xs transition-all hover:border-neutral-400 hover:bg-white hover:shadow-md active:scale-95 cursor-pointer"
       >
-        <span
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center",
-            width: 22, height: 22, borderRadius: 5,
-            background: "#171717",
-            fontSize: 11, fontWeight: 900, color: "#FFFFFF",
-          }}
-        >
+        <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-neutral-900 text-[11px] font-bold text-white shadow-xs">
           N
         </span>
-        <span
-          style={{
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: 10, letterSpacing: "0.10em",
-            textTransform: "uppercase", color: "#525252", fontWeight: 600,
-          }}
-        >
-          nextself
+        <span className="text-xs font-bold tracking-tight text-neutral-900 uppercase">
+          NextSelf
         </span>
-      </div>
+      </Link>
 
       {/* ── Headline — parallax, z-10 above everything ───────────── */}
       <motion.div
